@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tricord AI — Turn AI Hype Into Hard ROI</title>
+  <meta name="description" content="Practical, secure AI applications and Copilot integrations for Ontario SMBs in manufacturing, trades, and professional services." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              orange: '#f97316',
+              'orange-dark': '#ea580c',
+              bg: '#0d0f12',
+              card: '#161a20',
+              'card-hover': '#1d2229',
+              border: '#2a2f38',
+              muted: '#6b7280',
+              subtle: '#9ca3af',
+            }
+          },
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background-color: #0d0f12; color: #f1f5f9; font-family: 'Inter', sans-serif; }
+    .gradient-text { background: linear-gradient(135deg, #f97316, #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .card-glow { box-shadow: 0 0 0 1px rgba(249,115,22,0.4), 0 20px 60px rgba(249,115,22,0.08); }
+    .btn-primary { background: linear-gradient(135deg, #f97316, #ea580c); transition: all 0.2s; }
+    .btn-primary:hover { background: linear-gradient(135deg, #fb923c, #f97316); transform: translateY(-1px); box-shadow: 0 8px 25px rgba(249,115,22,0.35); }
+    .nav-blur { backdrop-filter: blur(16px); background: rgba(13,15,18,0.85); border-bottom: 1px solid rgba(42,47,56,0.6); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fade-up { animation: fadeUp 0.6s ease forwards; }
+    .delay-100 { animation-delay: 0.1s; opacity: 0; }
+    .delay-200 { animation-delay: 0.2s; opacity: 0; }
+    .delay-300 { animation-delay: 0.3s; opacity: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav-blur fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg btn-primary flex items-center justify-center flex-shrink-0">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M3 9 L9 3 L15 9 L9 15 Z" stroke="white" stroke-width="1.5" fill="none"/>
+            <circle cx="9" cy="9" r="2" fill="white"/>
+            <path d="M9 3 L9 6 M9 12 L9 15 M3 9 L6 9 M12 9 L15 9" stroke="white" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <span class="font-bold text-lg tracking-tight text-white">Tricord <span class="gradient-text">AI</span></span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm text-slate-400">
+        <a href="#services" class="hover:text-white transition-colors">Services</a>
+        <a href="#roi" class="hover:text-white transition-colors">ROI Calculator</a>
+        <a href="#process" class="hover:text-white transition-colors">Process</a>
+        <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+      </div>
+      <a href="#contact" class="btn-primary text-white text-sm font-semibold px-5 py-2.5 rounded-lg">
+        Book a Call
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="pt-32 pb-20 px-4 sm:px-6 max-w-6xl mx-auto">
+    <div class="max-w-2xl">
+      <div class="inline-flex items-center gap-2 bg-brand-card border border-brand-border rounded-full px-4 py-1.5 text-sm text-brand-subtle mb-8 animate-fade-up">
+        <span class="w-2 h-2 rounded-full bg-brand-orange animate-pulse"></span>
+        Niagara's Enterprise AI Partner
+      </div>
+
+      <h1 class="text-5xl sm:text-6xl font-black leading-[1.05] tracking-tight mb-6 animate-fade-up delay-100">
+        Turn AI hype<br />into <span class="gradient-text">hard ROI.</span>
+      </h1>
+
+      <p class="text-xl text-slate-400 leading-relaxed mb-10 animate-fade-up delay-200">
+        We build practical, secure AI applications and Copilot integrations for Ontario SMBs in manufacturing, trades, and professional services. No experiments. Just results.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-3 animate-fade-up delay-300">
+        <a href="#contact" class="btn-primary text-white font-semibold px-8 py-4 rounded-xl text-center text-lg">
+          Start Your Assessment &rarr;
+        </a>
+        <a href="#services" class="bg-brand-card border border-brand-border text-white font-semibold px-8 py-4 rounded-xl text-center text-lg hover:bg-brand-card-hover transition-colors">
+          View Solutions
+        </a>
+      </div>
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-px bg-brand-border rounded-2xl overflow-hidden border border-brand-border">
+      <div class="bg-brand-card px-6 py-5 text-center">
+        <div class="text-3xl font-black text-white">15+</div>
+        <div class="text-xs text-brand-muted mt-1 uppercase tracking-wider">Yrs IT Exp.</div>
+      </div>
+      <div class="bg-brand-card px-6 py-5 text-center">
+        <div class="flex justify-center mb-1">
+          <svg class="w-7 h-7 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <div class="text-xs text-brand-muted uppercase tracking-wider">MS Certified</div>
+      </div>
+      <div class="bg-brand-card px-6 py-5 text-center">
+        <div class="text-3xl font-black text-white">37%</div>
+        <div class="text-xs text-brand-muted mt-1 uppercase tracking-wider">Avg Productivity Lift</div>
+      </div>
+      <div class="bg-brand-card px-6 py-5 text-center">
+        <div class="text-3xl font-black text-white">&lt;6wk</div>
+        <div class="text-xs text-brand-muted mt-1 uppercase tracking-wider">First Deployment</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES / PRICING -->
+  <section id="services" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto">
+    <div class="text-center mb-14">
+      <h2 class="text-4xl font-black text-white mb-4">Services &amp; Pricing</h2>
+      <p class="text-slate-400 text-lg max-w-xl mx-auto">Three clear engagement types — no vague retainers, no scope creep.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Card 1: Assessment -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-8 flex flex-col hover:border-slate-600 transition-colors">
+        <div class="w-10 h-10 rounded-xl bg-brand-bg border border-brand-border flex items-center justify-center mb-6 text-brand-orange">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-1">AI Readiness Assessment</h3>
+        <p class="text-2xl font-black text-brand-orange mb-1">$10K &ndash; $15K</p>
+        <div class="border-t border-brand-border my-4"></div>
+        <p class="text-slate-400 text-sm mb-6">A 2-week deep dive into your infrastructure to build a practical AI roadmap.</p>
+        <ul class="space-y-2.5 flex-1">
+          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Data security audit</li>
+          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Microsoft Copilot fit analysis</li>
+          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Process bottleneck identification</li>
+          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Exec presentation &amp; roadmap</li>
+        </ul>
+        <a href="#contact" class="mt-8 block text-center border border-brand-border text-white text-sm font-semibold py-3 rounded-xl hover:bg-brand-card-hover transition-colors">
+          Get Started
+        </a>
+      </div>
+
+      <!-- Card 2: Build (MOST POPULAR) -->
+      <div class="bg-brand-card card-glow border border-brand-orange/40 rounded-2xl p-8 flex flex-col relative">
+        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2">
+          <span class="btn-primary text-white text-xs font-bold px-4 py-1.5 rounded-full tracking-wider uppercase">Most Popular</span>
+        </div>
+        <div class="w-10 h-10 rounded-xl bg-brand-bg border border-brand-border flex items-center justify-center mb-6 text-brand-orange">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-1">Custom AI App Build</h3>
+        <p class="text-2xl font-black text-brand-orange mb-1">$25K &ndash; $45K</p>
+        <div class="border-t border-brand-border my-4"></div>
+        <p class="text-slate-400 text-sm mb-6">Bespoke AI tools engineered for your specific operational challenges.</p>
+        <ul class="space-y-2.5 flex-1">
+          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Internal knowledge chatbots</li>
+          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Automated quoting systems</li>
+          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Inventory predictive analysis</li>
+          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Secure local LLM deployment</li>
+        </ul>
+        <a href="#contact" class="mt-8 block text-center btn-primary text-white text-sm font-semibold py-3 rounded-xl">
+          Start Building &rarr;
+        </a>
+      </div>
+
+      <!-- Card 3: Optimization -->
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-8 flex flex-col hover:border-slate-600 transition-colors">
+        <div class="w-10 h-10 rounded-xl bg-brand-bg border border-brand-border flex items-center justify-center mb-6 text-brand-orange">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-1">Optimization &amp; Support</h3>
+        <p class="text-2xl font-black text-brand-orange mb-1">$3K &ndash; $5K <span class="text-base font-semibold text-slate-400">/ mo</span></p>
+        <div class="border-t border-brand-border my-4"></div>
+        <p class="text-slate-400 text-sm mb-6">Ongoing refinement, prompt engineering, and staff training.</p>
+        <ul class="space-y-2.5 flex-1">
+          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Monthly use-case discovery</li>
+          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Staff training &amp; adoption</li>
+          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Security patching &amp; updates</li>
+          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Performance monitoring</li>
+        </ul>
+        <a href="#contact" class="mt-8 block text-center border border-brand-border text-white text-sm font-semibold py-3 rounded-xl hover:bg-brand-card-hover transition-colors">
+          Get Started
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ROI CALCULATOR -->
+  <section id="roi" class="py-20 px-4 sm:px-6 bg-brand-card border-y border-brand-border">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-black text-white mb-4">Copilot ROI Calculator</h2>
+        <p class="text-slate-400 text-lg">See your estimated annual productivity gains in 30 seconds.</p>
+      </div>
+
+      <div class="bg-brand-bg border border-brand-border rounded-2xl p-8">
+        <div class="grid sm:grid-cols-2 gap-6 mb-8">
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2">Number of Employees Using Copilot</label>
+            <input id="roi-employees" type="number" value="25" min="1" max="10000"
+              class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white text-lg font-semibold focus:outline-none focus:border-brand-orange transition-colors" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2">Average Annual Salary ($)</label>
+            <input id="roi-salary" type="number" value="65000" min="1"
+              class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white text-lg font-semibold focus:outline-none focus:border-brand-orange transition-colors" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2">Hours Saved Per Employee / Week</label>
+            <input id="roi-hours" type="number" value="5" min="0.5" max="40" step="0.5"
+              class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white text-lg font-semibold focus:outline-none focus:border-brand-orange transition-colors" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-300 mb-2">Productivity Uplift (%)</label>
+            <input id="roi-uplift" type="number" value="37" min="1" max="100"
+              class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white text-lg font-semibold focus:outline-none focus:border-brand-orange transition-colors" />
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-4 mb-8">
+          <div class="bg-brand-card border border-brand-border rounded-xl p-5 text-center">
+            <div class="text-3xl font-black text-brand-orange mb-1" id="roi-annual">$0</div>
+            <div class="text-xs text-brand-muted uppercase tracking-wider">Annual Value Gained</div>
+          </div>
+          <div class="bg-brand-card border border-brand-border rounded-xl p-5 text-center">
+            <div class="text-3xl font-black text-white mb-1" id="roi-monthly">$0</div>
+            <div class="text-xs text-brand-muted uppercase tracking-wider">Monthly Value</div>
+          </div>
+          <div class="bg-brand-card border border-brand-border rounded-xl p-5 text-center">
+            <div class="text-3xl font-black text-white mb-1" id="roi-payback">0 mo</div>
+            <div class="text-xs text-brand-muted uppercase tracking-wider">Payback Period</div>
+          </div>
+        </div>
+
+        <p class="text-xs text-brand-muted text-center">Based on Microsoft Copilot productivity research. Actual results vary by role and adoption rate.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto">
+    <div class="text-center mb-14">
+      <h2 class="text-4xl font-black text-white mb-4">How We Work</h2>
+      <p class="text-slate-400 text-lg max-w-xl mx-auto">A clear four-step process from discovery to results.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-7">
+        <div class="text-5xl font-black text-brand-orange/20 mb-4">01</div>
+        <h3 class="text-lg font-bold text-white mb-2">Discovery Call</h3>
+        <p class="text-sm text-slate-400">30-minute no-obligation call to understand your operations and biggest pain points.</p>
+      </div>
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-7">
+        <div class="text-5xl font-black text-brand-orange/20 mb-4">02</div>
+        <h3 class="text-lg font-bold text-white mb-2">AI Readiness Audit</h3>
+        <p class="text-sm text-slate-400">Deep dive into your data, security posture, and processes. Deliverable: prioritized roadmap.</p>
+      </div>
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-7">
+        <div class="text-5xl font-black text-brand-orange/20 mb-4">03</div>
+        <h3 class="text-lg font-bold text-white mb-2">Build &amp; Deploy</h3>
+        <p class="text-sm text-slate-400">Rapid prototyping with weekly demos. Production deployment in under 6 weeks.</p>
+      </div>
+      <div class="bg-brand-card border border-brand-border rounded-2xl p-7">
+        <div class="text-5xl font-black text-brand-orange/20 mb-4">04</div>
+        <h3 class="text-lg font-bold text-white mb-2">Optimize &amp; Scale</h3>
+        <p class="text-sm text-slate-400">Ongoing monitoring, prompt tuning, and staff training to keep ROI compounding.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US / CTA BANNER -->
+  <section class="py-20 px-4 sm:px-6 bg-brand-card border-y border-brand-border">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-4xl font-black text-white mb-6">Ready to upgrade your operations?</h2>
+          <p class="text-lg text-slate-400 mb-8">Stop wondering if AI is right for your business. Let's look at your data, your processes, and your goals to find out exactly where the value lies.</p>
+          <div class="space-y-4">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-brand-bg border border-brand-border flex items-center justify-center flex-shrink-0 text-brand-orange">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              </div>
+              <div>
+                <div class="font-semibold text-white">Enterprise Security First</div>
+                <div class="text-sm text-slate-400">Your data never trains public models.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-brand-bg border border-brand-border flex items-center justify-center flex-shrink-0 text-brand-orange">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+              <div>
+                <div class="font-semibold text-white">Rapid Deployment</div>
+                <div class="text-sm text-slate-400">Functional prototypes in weeks, not months.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-brand-bg border border-brand-border flex items-center justify-center flex-shrink-0 text-brand-orange">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </div>
+              <div>
+                <div class="font-semibold text-white">Local Niagara Expertise</div>
+                <div class="text-sm text-slate-400">We know Ontario SMBs — no cookie-cutter solutions.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTACT FORM -->
+        <div id="contact" class="bg-brand-bg border border-brand-border rounded-2xl p-8">
+          <h3 class="text-2xl font-black text-white mb-6">Request a Consultation</h3>
+          <form id="contact-form" class="space-y-4">
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1.5">First Name</label>
+                <input type="text" name="firstName" required placeholder="Jane"
+                  class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange transition-colors" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1.5">Last Name</label>
+                <input type="text" name="lastName" required placeholder="Smith"
+                  class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange transition-colors" />
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-300 mb-1.5">Work Email</label>
+              <input type="email" name="email" required placeholder="jane@company.ca"
+                class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange transition-colors" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-300 mb-1.5">Company</label>
+              <input type="text" name="company" placeholder="Acme Manufacturing"
+                class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange transition-colors" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-300 mb-1.5">Industry</label>
+              <select name="industry"
+                class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-orange transition-colors appearance-none">
+                <option value="">Select your industry</option>
+                <option>Manufacturing</option>
+                <option>Trades &amp; Construction</option>
+                <option>Professional Services</option>
+                <option>Healthcare</option>
+                <option>Logistics &amp; Distribution</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-300 mb-1.5">What's your biggest operational challenge?</label>
+              <textarea name="challenge" rows="3" placeholder="E.g. our quoting process takes 3 days and loses us deals..."
+                class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange transition-colors resize-none"></textarea>
+            </div>
+            <button type="submit" class="btn-primary w-full text-white font-semibold py-4 rounded-xl text-lg">
+              Book My Free Consultation &rarr;
+            </button>
+            <p class="text-xs text-brand-muted text-center">No commitment. We respond within one business day. <a href="mailto:info@tricordit.ca" class="text-slate-400 hover:text-white transition-colors underline">info@tricordit.ca</a></p>
+          </form>
+          <div id="form-success" class="hidden text-center py-8">
+            <div class="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <h4 class="text-xl font-bold text-white mb-2">You're on the list!</h4>
+            <p class="text-slate-400">We'll be in touch within one business day to schedule your discovery call.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-10 px-4 sm:px-6 max-w-6xl mx-auto">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-lg btn-primary flex items-center justify-center">
+          <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+            <path d="M3 9 L9 3 L15 9 L9 15 Z" stroke="white" stroke-width="1.5" fill="none"/>
+            <circle cx="9" cy="9" r="2" fill="white"/>
+            <path d="M9 3 L9 6 M9 12 L9 15 M3 9 L6 9 M12 9 L15 9" stroke="white" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <span class="font-bold text-white">Tricord <span class="gradient-text">AI</span></span>
+        <span class="text-brand-muted text-sm">&mdash; a division of <a href="https://tricordit.ca" class="hover:text-white transition-colors">Tricord IT</a></span>
+      </div>
+      <p class="text-sm text-brand-muted">&copy; 2026 Tricord IT Inc. Niagara, Ontario. <a href="mailto:info@tricordit.ca" class="hover:text-white transition-colors">info@tricordit.ca</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // ROI Calculator
+    function calcROI() {
+      const employees = parseFloat(document.getElementById('roi-employees').value) || 0;
+      const salary = parseFloat(document.getElementById('roi-salary').value) || 0;
+      const hoursPerWeek = parseFloat(document.getElementById('roi-hours').value) || 0;
+      const uplift = parseFloat(document.getElementById('roi-uplift').value) || 0;
+
+      const hourlyRate = salary / 2080;
+      const annualHoursSaved = hoursPerWeek * 52 * employees;
+      const annualValueHours = annualHoursSaved * hourlyRate;
+      const annualValueUplift = salary * employees * (uplift / 100);
+      const annualValue = Math.max(annualValueHours, annualValueUplift);
+      const monthlyValue = annualValue / 12;
+
+      // Payback: assume $35K mid-point build cost
+      const buildCost = 35000;
+      const payback = monthlyValue > 0 ? Math.ceil(buildCost / monthlyValue) : 0;
+
+      const fmt = (n) => n >= 1000000
+        ? '$' + (n / 1000000).toFixed(1) + 'M'
+        : n >= 1000
+          ? '$' + Math.round(n / 1000) + 'K'
+          : '$' + Math.round(n);
+
+      document.getElementById('roi-annual').textContent = fmt(annualValue);
+      document.getElementById('roi-monthly').textContent = fmt(monthlyValue);
+      document.getElementById('roi-payback').textContent = payback > 0 ? payback + ' mo' : '—';
+    }
+
+    ['roi-employees','roi-salary','roi-hours','roi-uplift'].forEach(id => {
+      document.getElementById(id).addEventListener('input', calcROI);
+    });
+    calcROI();
+
+    // Contact form
+    document.getElementById('contact-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type="submit"]');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      const data = Object.fromEntries(new FormData(this));
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (res.ok) {
+          document.getElementById('contact-form').classList.add('hidden');
+          document.getElementById('form-success').classList.remove('hidden');
+        } else {
+          throw new Error('Server error');
+        }
+      } catch {
+        // Fallback: open mailto
+        window.location.href = `mailto:info@tricordit.ca?subject=Consultation Request - ${encodeURIComponent(data.company || data.firstName)}&body=${encodeURIComponent('Name: ' + data.firstName + ' ' + data.lastName + '\nEmail: ' + data.email + '\nCompany: ' + data.company + '\nIndustry: ' + data.industry + '\nChallenge: ' + data.challenge)}`;
+        btn.textContent = 'Book My Free Consultation →';
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
