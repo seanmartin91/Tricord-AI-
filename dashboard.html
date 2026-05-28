@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRICORD Outreach Dashboard</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    font-size: 14px;
+  }
+
+  /* Header */
+  .header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #e85d04;
+  }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .logo-mark {
+    width: 38px; height: 38px;
+    background: #e85d04;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 16px; color: #fff; letter-spacing: -1px;
+  }
+  .header h1 { font-size: 17px; font-weight: 700; letter-spacing: 0.3px; }
+  .header p { font-size: 12px; color: #8b9ab3; margin-top: 1px; }
+  .header-right { display: flex; gap: 10px; align-items: center; }
+  .btn {
+    padding: 7px 14px; border-radius: 6px; font-size: 13px;
+    font-weight: 600; cursor: pointer; border: none; transition: 0.15s;
+  }
+  .btn-primary { background: #e85d04; color: #fff; }
+  .btn-primary:hover { background: #c94e00; }
+  .btn-ghost { background: rgba(255,255,255,0.1); color: #fff; }
+  .btn-ghost:hover { background: rgba(255,255,255,0.2); }
+  .last-updated { font-size: 11px; color: #8b9ab3; }
+
+  /* Layout */
+  .main { padding: 24px 28px; max-width: 1400px; margin: 0 auto; }
+
+  /* KPI Cards */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .kpi-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px;
+    border-top: 3px solid #e85d04;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+  .kpi-card.blue { border-top-color: #3b82f6; }
+  .kpi-card.green { border-top-color: #10b981; }
+  .kpi-card.amber { border-top-color: #f59e0b; }
+  .kpi-card.purple { border-top-color: #8b5cf6; }
+  .kpi-card.teal { border-top-color: #14b8a6; }
+  .kpi-label { font-size: 11px; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi-value { font-size: 28px; font-weight: 800; color: #1a1a2e; margin: 4px 0 2px; line-height: 1; }
+  .kpi-sub { font-size: 11px; color: #9ca3af; }
+
+  /* Two-col layout */
+  .row-two { display: grid; grid-template-columns: 1fr 340px; gap: 16px; margin-bottom: 20px; }
+  .row-three { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+
+  /* Cards */
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .card-title { font-weight: 700; font-size: 14px; color: #1a1a2e; }
+  .card-subtitle { font-size: 11px; color: #9ca3af; margin-top: 1px; }
+  .card-body { padding: 18px; }
+
+  /* Pipeline stages */
+  .pipeline { display: flex; gap: 0; }
+  .stage {
+    flex: 1; padding: 14px 16px;
+    border-right: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .stage:last-child { border-right: none; }
+  .stage:hover { background: #fafafa; }
+  .stage-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #6b7280; }
+  .stage-count { font-size: 26px; font-weight: 800; margin: 4px 0; }
+  .stage-bar { height: 4px; border-radius: 2px; margin-top: 8px; background: #f0f0f0; }
+  .stage-fill { height: 100%; border-radius: 2px; transition: width 0.4s; }
+  .s1 .stage-count { color: #3b82f6; } .s1 .stage-fill { background: #3b82f6; }
+  .s2 .stage-count { color: #e85d04; } .s2 .stage-fill { background: #e85d04; }
+  .s3 .stage-count { color: #f59e0b; } .s3 .stage-fill { background: #f59e0b; }
+  .s4 .stage-count { color: #8b5cf6; } .s4 .stage-fill { background: #8b5cf6; }
+  .s5 .stage-count { color: #10b981; } .s5 .stage-fill { background: #10b981; }
+
+  /* Prospect Table */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { border-bottom: 2px solid #f0f0f0; }
+  thead th {
+    padding: 10px 12px; text-align: left;
+    font-size: 11px; font-weight: 700;
+    color: #6b7280; text-transform: uppercase; letter-spacing: 0.4px;
+    white-space: nowrap;
+  }
+  tbody tr { border-bottom: 1px solid #f7f7f7; transition: background 0.1s; }
+  tbody tr:hover { background: #fafafa; }
+  tbody td { padding: 10px 12px; vertical-align: middle; }
+  .company-name { font-weight: 600; color: #1a1a2e; }
+  .contact-name { color: #4b5563; font-size: 12px; }
+
+  /* Badges */
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; white-space: nowrap;
+  }
+  .badge-legal { background: #ede9fe; color: #6d28d9; }
+  .badge-manufacturing { background: #dbeafe; color: #1d4ed8; }
+  .badge-cpa { background: #d1fae5; color: #065f46; }
+  .badge-pharma { background: #fce7f3; color: #9d174d; }
+  .badge-engineering { background: #fef3c7; color: #92400e; }
+  .badge-insurance { background: #e0f2fe; color: #0369a1; }
+  .badge-healthcare { background: #f0fdf4; color: #166534; }
+
+  /* Touch status dots */
+  .touch-grid { display: flex; gap: 4px; }
+  .touch-dot {
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; cursor: pointer;
+    border: 2px solid #e5e7eb; background: #f9fafb; color: #9ca3af;
+    transition: 0.15s; position: relative;
+  }
+  .touch-dot:hover { transform: scale(1.1); }
+  .touch-dot.sent { background: #dbeafe; border-color: #93c5fd; color: #1d4ed8; }
+  .touch-dot.replied { background: #d1fae5; border-color: #6ee7b7; color: #065f46; }
+  .touch-dot.bounced { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+
+  /* Stage select */
+  .stage-select {
+    border: 1px solid #e5e7eb; border-radius: 5px; padding: 3px 6px;
+    font-size: 12px; color: #374151; background: #fff; cursor: pointer;
+    font-family: inherit;
+  }
+  .stage-select:focus { outline: 2px solid #e85d04; }
+
+  /* Priority star */
+  .priority-star { cursor: pointer; font-size: 14px; color: #d1d5db; transition: 0.15s; }
+  .priority-star.active { color: #f59e0b; }
+
+  /* Sector chart */
+  .chart-container { position: relative; height: 220px; }
+
+  /* Add prospect form */
+  .add-form { display: none; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 12px 18px; }
+  .add-form.visible { display: block; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .form-row-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .form-group label { font-size: 11px; font-weight: 600; color: #6b7280; display: block; margin-bottom: 3px; }
+  .form-input {
+    width: 100%; border: 1px solid #d1d5db; border-radius: 5px;
+    padding: 7px 10px; font-size: 13px; font-family: inherit;
+    color: #1a1a2e;
+  }
+  .form-input:focus { outline: 2px solid #e85d04; border-color: transparent; }
+  .form-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+  /* Filter bar */
+  .filter-bar { display: flex; gap: 8px; padding: 12px 18px; border-bottom: 1px solid #f0f0f0; flex-wrap: wrap; align-items: center; }
+  .filter-btn {
+    padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    cursor: pointer; border: 2px solid #e5e7eb; background: #fff; color: #6b7280;
+    transition: 0.15s; font-family: inherit;
+  }
+  .filter-btn.active { border-color: #e85d04; color: #e85d04; background: #fff8f5; }
+  .search-input {
+    border: 1px solid #e5e7eb; border-radius: 6px; padding: 5px 10px;
+    font-size: 13px; font-family: inherit; color: #1a1a2e; flex: 1; min-width: 180px;
+  }
+  .search-input:focus { outline: 2px solid #e85d04; border-color: transparent; }
+
+  /* Mailchimp status */
+  .mc-status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #6b7280; }
+  .mc-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; }
+  .mc-dot.loading { background: #f59e0b; animation: pulse 1s infinite; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* Tooltip */
+  .tip { position: relative; }
+  .tip:hover::after {
+    content: attr(data-tip);
+    position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%);
+    background: #1a1a2e; color: #fff; font-size: 11px; padding: 4px 8px;
+    border-radius: 4px; white-space: nowrap; z-index: 100; pointer-events: none;
+  }
+
+  /* Empty state */
+  .empty-state { text-align: center; padding: 40px; color: #9ca3af; }
+  .empty-state p { font-size: 13px; margin-top: 8px; }
+
+  /* Priority row */
+  tr.priority-row { background: #fffbeb !important; }
+
+  /* Response note */
+  .response-input {
+    border: none; font-size: 12px; color: #374151; font-family: inherit;
+    background: transparent; width: 100%; cursor: pointer;
+  }
+  .response-input:focus { outline: 1px solid #e85d04; border-radius: 3px; background: #fff; padding: 2px 4px; }
+  .response-input::placeholder { color: #d1d5db; }
+
+  .section-title { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 12px; }
+
+  /* Mailchimp card */
+  .mc-campaigns { padding: 0; }
+  .mc-campaign-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; border-bottom: 1px solid #f7f7f7; }
+  .mc-campaign-row:last-child { border-bottom: none; }
+  .mc-campaign-name { font-weight: 600; font-size: 13px; }
+  .mc-campaign-meta { font-size: 11px; color: #9ca3af; margin-top: 1px; }
+  .mc-stats { display: flex; gap: 16px; }
+  .mc-stat { text-align: center; }
+  .mc-stat-val { font-weight: 700; font-size: 14px; color: #1a1a2e; }
+  .mc-stat-label { font-size: 10px; color: #9ca3af; text-transform: uppercase; }
+  .mc-placeholder { padding: 32px 18px; text-align: center; color: #9ca3af; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="logo-mark">TRI</div>
+    <div>
+      <h1>TRICORD Outreach Dashboard</h1>
+      <p>AI Strategy & Governance · Ontario Prospect Pipeline</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="last-updated" id="lastUpdated">Last updated: just now</span>
+    <button class="btn btn-ghost" onclick="exportCSV()">⬇ Export</button>
+    <button class="btn btn-primary" onclick="toggleAddForm()">+ Add Prospect</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- KPI Row -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Total Prospects</div>
+      <div class="kpi-value" id="kpi-total">10</div>
+      <div class="kpi-sub">across 2 sectors</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">Emails Verified</div>
+      <div class="kpi-value" id="kpi-verified">—</div>
+      <div class="kpi-sub">via Hunter.io</div>
+    </div>
+    <div class="kpi-card amber">
+      <div class="kpi-label">Contacted</div>
+      <div class="kpi-value" id="kpi-contacted">0</div>
+      <div class="kpi-sub">Touch 1 sent</div>
+    </div>
+    <div class="kpi-card purple">
+      <div class="kpi-label">Replies</div>
+      <div class="kpi-value" id="kpi-replies">0</div>
+      <div class="kpi-sub" id="kpi-reply-rate">0% reply rate</div>
+    </div>
+    <div class="kpi-card teal">
+      <div class="kpi-label">Meetings</div>
+      <div class="kpi-value" id="kpi-meetings">0</div>
+      <div class="kpi-sub">booked</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Won</div>
+      <div class="kpi-value" id="kpi-won">0</div>
+      <div class="kpi-sub">new clients</div>
+    </div>
+  </div>
+
+  <!-- Pipeline Funnel -->
+  <div class="card" style="margin-bottom: 20px;">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Sales Pipeline</div>
+        <div class="card-subtitle">Click a stage to filter the table below</div>
+      </div>
+      <div class="mc-status"><div class="mc-dot mc-dot" id="mcDot"></div><span id="mcStatus">Mailchimp ready</span></div>
+    </div>
+    <div class="pipeline">
+      <div class="stage s1" onclick="filterByStage('prospect')">
+        <div class="stage-name">Prospect</div>
+        <div class="stage-count" id="st-prospect">0</div>
+        <div class="stage-bar"><div class="stage-fill" id="sf-prospect" style="width:0%"></div></div>
+      </div>
+      <div class="stage s2" onclick="filterByStage('contacted')">
+        <div class="stage-name">Contacted</div>
+        <div class="stage-count" id="st-contacted">0</div>
+        <div class="stage-bar"><div class="stage-fill" id="sf-contacted" style="width:0%"></div></div>
+      </div>
+      <div class="stage s3" onclick="filterByStage('replied')">
+        <div class="stage-name">Replied</div>
+        <div class="stage-count" id="st-replied">0</div>
+        <div class="stage-bar"><div class="stage-fill" id="sf-replied" style="width:0%"></div></div>
+      </div>
+      <div class="stage s4" onclick="filterByStage('meeting')">
+        <div class="stage-name">Meeting Booked</div>
+        <div class="stage-count" id="st-meeting">0</div>
+        <div class="stage-bar"><div class="stage-fill" id="sf-meeting" style="width:0%"></div></div>
+      </div>
+      <div class="stage s5" onclick="filterByStage('won')">
+        <div class="stage-name">Won</div>
+        <div class="stage-count" id="st-won">0</div>
+        <div class="stage-bar"><div class="stage-fill" id="sf-won" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="row-three" style="margin-bottom:20px;">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Prospects by Sector</div></div>
+      <div class="card-body"><div class="chart-container"><canvas id="sectorChart"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Touch Activity</div></div>
+      <div class="card-body"><div class="chart-container"><canvas id="touchChart"></canvas></div></div>
+    </div>
+  </div>
+
+  <!-- Prospect Table -->
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Prospect Tracker</div>
+        <div class="card-subtitle">Click touch dots to update status · Click company to edit notes</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span style="font-size:11px;color:#9ca3af;">⭐ = priority</span>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterSector('all', this)">All</button>
+      <button class="filter-btn" onclick="filterSector('Legal', this)">Legal</button>
+      <button class="filter-btn" onclick="filterSector('Manufacturing', this)">Manufacturing</button>
+      <button class="filter-btn" onclick="filterSector('CPA', this)">CPA</button>
+      <button class="filter-btn" onclick="filterSector('Pharma', this)">Pharma</button>
+      <button class="filter-btn" onclick="filterSector('Engineering', this)">Engineering</button>
+      <button class="filter-btn" onclick="filterSector('Insurance', this)">Insurance</button>
+      <button class="filter-btn" onclick="filterSector('Healthcare', this)">Healthcare</button>
+      <input class="search-input" placeholder="🔍  Search company or contact..." oninput="searchProspects(this.value)">
+    </div>
+
+    <!-- Add Form -->
+    <div class="add-form" id="addForm">
+      <div class="form-row">
+        <div class="form-group"><label>Company *</label><input class="form-input" id="f-company" placeholder="Acme Manufacturing Inc."></div>
+        <div class="form-group"><label>Sector *</label>
+          <select class="form-input" id="f-sector">
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="Legal">Legal</option>
+            <option value="CPA">CPA / Accounting</option>
+            <option value="Pharma">Pharma / Life Sciences</option>
+            <option value="Engineering">Engineering / Architecture</option>
+            <option value="Insurance">Insurance</option>
+            <option value="Healthcare">Healthcare</option>
+          </select>
+        </div>
+        <div class="form-group"><label>City</label><input class="form-input" id="f-city" placeholder="Hamilton, ON"></div>
+      </div>
+      <div class="form-row-4">
+        <div class="form-group"><label>Contact Name</label><input class="form-input" id="f-contact" placeholder="Jane Smith"></div>
+        <div class="form-group"><label>Title</label><input class="form-input" id="f-title" placeholder="Managing Partner"></div>
+        <div class="form-group"><label>Email</label><input class="form-input" id="f-email" placeholder="jane@company.ca"></div>
+        <div class="form-group"><label>LinkedIn URL</label><input class="form-input" id="f-linkedin" placeholder="linkedin.com/in/..."></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="grid-column:span 2;"><label>AI Signal / Research Note</label><input class="form-input" id="f-signal" placeholder="Publicly mentioned Copilot adoption, no IT policy visible on website"></div>
+        <div class="form-group"><label>Hunter.io Confidence %</label><input class="form-input" id="f-confidence" type="number" min="0" max="100" placeholder="87"></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-ghost" style="background:#f3f4f6;color:#374151;" onclick="toggleAddForm()">Cancel</button>
+        <button class="btn btn-primary" onclick="addProspect()">Add Prospect</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th width="20">★</th>
+            <th>Company</th>
+            <th>Sector</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>AI Signal</th>
+            <th>T1 Email</th>
+            <th>T2 LinkedIn</th>
+            <th>T3 Follow-up</th>
+            <th>T4 Close</th>
+            <th>Stage</th>
+            <th>Response / Notes</th>
+          </tr>
+        </thead>
+        <tbody id="prospectTbody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <div style="font-size:32px;">📋</div>
+        <p>No prospects match your filter.<br>Click <strong>+ Add Prospect</strong> or run the outreach skill to populate.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mailchimp -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Mailchimp Campaigns</div>
+        <div class="card-subtitle">Draft campaigns queued for Dwight's review</div>
+      </div>
+    </div>
+    <div id="mailchimpSection">
+      <div class="mc-placeholder">
+        No campaigns sent yet. Run the outreach skill to queue drafts in Mailchimp, then they'll appear here.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+
+<script>
+// ── Default Prospects (from eval run) ───────────────────────────────────────
+const DEFAULT_PROSPECTS = [
+  { id:1, company:"Orlick Industries Ltd.", sector:"Manufacturing", city:"Hamilton", contact:"Grant Panchyson", title:"CEO", email:"", confidence:"", linkedin:"", signal:"Automotive aluminum die-casting, Tier 1 supplier, ~500 employees, no IT Director listed", t1:"pending", t2:"pending", t3:"pending", t4:"pending", stage:"prospect", response:"", priority:false },
+  { id:2, company:"Snackruptors Inc.", sector:"Manufacturing", city:"Cambridge", contact:"Rick Taborda", title:"President", email:"", confidence:"", linkedin:"", signal:"$115M Hain Celestial acquisition in 2025 — IT integration window is right now", t1:"pending", t2:"pending", t3:"pending", t4:"pending", stage:"prospect", response:"", priority:true },
+  { id:3, company:"BMP Metals Inc.", sector:"Manufacturing", city:"Brampton", contact:"Robert Bedard", title:"President", email:"", confidence:"", linkedin:"", signal:"Running MIE Trak Pro ERP — documented in case study, founder-owner, ~63 employees", t1:"pending", t2:"pending", t3:"pending", t4:"pending", stage:"prospect", response:"", priority:false },
+  { id:4, company:"Edson Packaging Machinery", sector:"Manufacturing", city:"Hamilton", contact:"Gary Evans", title:"VP & GM", email:"", confidence:"", linkedin:"", signal:"Industrial packaging equipment, ~100 employees, no public IT leadership", t1:"pending", t2:"pending", t3:"pending", t4:"pending", stage:"prospect", response:"", priority:false },
+  { id:5, company:"Integrated Metal Products Ltd.", sector:"Manufacturing", city:"Guelph", contact:"", title:"President / GM", email:"", confidence:"", linkedin:"", signal:"Precision fabrication for OEM / Defence, 11–50 employees", t1:"pending", t2:"pending", t3:"pending", t4:"pending", stage:"prospect", response:"", priority:false },
+  { id:6, company:"Gluckstein Lawyers", sector:"Legal", city:"Toronto", contact:"Charles Gluckstein", title:"Managing Partner", email:"", confidence:"", linkedin:"", signal:"Confirmed Filevine user — one of Canada's first adopters. Publicly vocal on AI in practice.", t1:"pending", t2:"pending", t3:"pending", t4:"pending", stage:"prospect", response:"", priority:true },
+  { id:7, company:"Escarpment Law Group", sector:"Legal", city:"Hamilton", contact:"Alanna Stephen", title:"Managing Partner", email:"", confidence:"", linkedin:"", signal:"8 offices across Hamilton/Burlington region — multi-site fractional CIO fit", t1:"pending", t2:"pending", t3:"pending", t4:"pending", stage:"prospect", response:"", priority:false },
+  { id:8, company:"Cass & Bishop Professional Corp.", sector:"Legal", city:"Burlington", contact:"Peter Cass", title:"Partner", email:"", confidence:"", linkedin:"", signal:"Burlington firm since 1958 — high probability of on-prem infrastructure", t1:"pending", t2:"pending", t3:"pending", t4:"pending", stage:"prospect", response:"", priority:false },
+  { id:9, company:"Dale Streiman Law LLP", sector:"Legal", city:"Brampton", contact:"Dale Streiman", title:"Managing Partner", email:"", confidence:"", linkedin:"", signal:"High-volume Brampton real estate practice — data residency exposure", t1:"pending", t2:"pending", t3:"pending", t4:"pending", stage:"prospect", response:"", priority:false },
+  { id:10, company:"McKenzie Lake Lawyers LLP", sector:"Legal", city:"London", contact:"Matthew Villeneuve", title:"Managing Partner", email:"", confidence:"", linkedin:"", signal:"60+ lawyers, two cities, named top Ontario regional firm 2025-26 — spoke on record about tech investment", t1:"pending", t2:"pending", t3:"pending", t4:"pending", stage:"prospect", response:"", priority:true },
+];
+
+// ── State ────────────────────────────────────────────────────────────────────
+let prospects = JSON.parse(localStorage.getItem('tricord_prospects') || 'null') || DEFAULT_PROSPECTS;
+let nextId = Math.max(...prospects.map(p => p.id)) + 1;
+let activeFilter = 'all';
+let activeStageFilter = null;
+let searchQuery = '';
+let sectorChart, touchChart;
+
+function save() {
+  localStorage.setItem('tricord_prospects', JSON.stringify(prospects));
+  localStorage.setItem('tricord_updated', new Date().toISOString());
+  updateLastUpdated();
+}
+
+function updateLastUpdated() {
+  const t = localStorage.getItem('tricord_updated');
+  if (!t) return;
+  const d = new Date(t);
+  document.getElementById('lastUpdated').textContent = 'Last updated: ' + d.toLocaleTimeString();
+}
+
+// ── Render ───────────────────────────────────────────────────────────────────
+function getFiltered() {
+  return prospects.filter(p => {
+    const sectorOk = activeFilter === 'all' || p.sector === activeFilter;
+    const stageOk = !activeStageFilter || p.stage === activeStageFilter;
+    const q = searchQuery.toLowerCase();
+    const searchOk = !q || p.company.toLowerCase().includes(q) || (p.contact||'').toLowerCase().includes(q);
+    return sectorOk && stageOk && searchOk;
+  });
+}
+
+function sectorBadge(sector) {
+  const map = { Legal:'legal', Manufacturing:'manufacturing', CPA:'cpa', Pharma:'pharma', Engineering:'engineering', Insurance:'insurance', Healthcare:'healthcare' };
+  const cls = map[sector] || 'legal';
+  return `<span class="badge badge-${cls}">${sector}</span>`;
+}
+
+function touchDot(p, touch) {
+  const status = p[touch];
+  const labels = { t1:'T1', t2:'T2', t3:'T3', t4:'T4' };
+  const tips = { pending:'Pending', sent:'Sent', replied:'Replied', bounced:'Bounced' };
+  const cls = status !== 'pending' ? ` ${status}` : '';
+  return `<div class="touch-dot${cls} tip" data-tip="${tips[status]||status}" onclick="cycleTouchStatus(${p.id}, '${touch}')">${labels[touch]}</div>`;
+}
+
+function renderTable() {
+  const filtered = getFiltered();
+  const tbody = document.getElementById('prospectTbody');
+  document.getElementById('emptyState').style.display = filtered.length ? 'none' : 'block';
+
+  tbody.innerHTML = filtered.sort((a,b) => {
+    if (a.priority && !b.priority) return -1;
+    if (!a.priority && b.priority) return 1;
+    const order = ['prospect','contacted','replied','meeting','won'];
+    return order.indexOf(b.stage) - order.indexOf(a.stage);
+  }).map(p => `
+    <tr class="${p.priority ? 'priority-row' : ''}" id="row-${p.id}">
+      <td><span class="priority-star ${p.priority ? 'active' : ''}" onclick="togglePriority(${p.id})">★</span></td>
+      <td>
+        <div class="company-name">${p.company}</div>
+        <div class="contact-name">${p.city || ''}</div>
+      </td>
+      <td>${sectorBadge(p.sector)}</td>
+      <td>
+        <div class="company-name" style="font-size:12px;">${p.contact || '<span style="color:#d1d5db">—</span>'}</div>
+        <div class="contact-name">${p.title || ''}</div>
+      </td>
+      <td style="max-width:160px;">
+        ${p.email ? `<span style="font-size:12px;color:#374151;">${p.email}</span>${p.confidence ? ` <span style="color:#9ca3af;font-size:11px;">${p.confidence}%</span>` : ''}` : '<span style="color:#d1d5db;font-size:12px;">Not found</span>'}
+      </td>
+      <td style="max-width:200px;"><span style="font-size:11px;color:#6b7280;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${p.signal || ''}</span></td>
+      <td><div class="touch-grid">${touchDot(p,'t1')}</div></td>
+      <td><div class="touch-grid">${touchDot(p,'t2')}</div></td>
+      <td><div class="touch-grid">${touchDot(p,'t3')}</div></td>
+      <td><div class="touch-grid">${touchDot(p,'t4')}</div></td>
+      <td>
+        <select class="stage-select" onchange="updateStage(${p.id}, this.value)">
+          <option value="prospect" ${p.stage==='prospect'?'selected':''}>Prospect</option>
+          <option value="contacted" ${p.stage==='contacted'?'selected':''}>Contacted</option>
+          <option value="replied" ${p.stage==='replied'?'selected':''}>Replied</option>
+          <option value="meeting" ${p.stage==='meeting'?'selected':''}>Meeting</option>
+          <option value="won" ${p.stage==='won'?'selected':''}>Won</option>
+        </select>
+      </td>
+      <td style="min-width:140px;">
+        <input class="response-input" value="${p.response||''}" placeholder="Add note..." onchange="updateResponse(${p.id}, this.value)" onclick="this.select()">
+      </td>
+    </tr>
+  `).join('');
+
+  updateKPIs();
+  updatePipeline();
+  updateCharts();
+}
+
+// ── KPIs ─────────────────────────────────────────────────────────────────────
+function updateKPIs() {
+  const total = prospects.length;
+  const verified = prospects.filter(p => p.email).length;
+  const contacted = prospects.filter(p => p.t1 !== 'pending').length;
+  const replies = prospects.filter(p => ['replied','meeting','won'].includes(p.stage)).length;
+  const meetings = prospects.filter(p => ['meeting','won'].includes(p.stage)).length;
+  const won = prospects.filter(p => p.stage === 'won').length;
+  const sectorCount = new Set(prospects.map(p=>p.sector)).size;
+
+  document.getElementById('kpi-total').textContent = total;
+  document.getElementById('kpi-verified').textContent = verified || '—';
+  document.getElementById('kpi-contacted').textContent = contacted;
+  document.getElementById('kpi-replies').textContent = replies;
+  document.getElementById('kpi-meetings').textContent = meetings;
+  document.getElementById('kpi-won').textContent = won;
+  const rateEl = document.getElementById('kpi-reply-rate');
+  rateEl.textContent = contacted > 0 ? `${Math.round(replies/contacted*100)}% reply rate` : '0% reply rate';
+  document.querySelector('#kpi-total + .kpi-sub').textContent = `across ${sectorCount} sector${sectorCount!==1?'s':''}`;
+}
+
+// ── Pipeline ─────────────────────────────────────────────────────────────────
+function updatePipeline() {
+  const stages = ['prospect','contacted','replied','meeting','won'];
+  const counts = {};
+  stages.forEach(s => counts[s] = prospects.filter(p => p.stage === s).length);
+  const max = Math.max(...Object.values(counts), 1);
+  stages.forEach(s => {
+    document.getElementById(`st-${s}`).textContent = counts[s];
+    document.getElementById(`sf-${s}`).style.width = `${(counts[s]/max*100)}%`;
+  });
+}
+
+// ── Charts ───────────────────────────────────────────────────────────────────
+function updateCharts() {
+  const sectorCounts = {};
+  prospects.forEach(p => { sectorCounts[p.sector] = (sectorCounts[p.sector]||0) + 1; });
+  const labels = Object.keys(sectorCounts);
+  const data = Object.values(sectorCounts);
+  const colors = ['#3b82f6','#e85d04','#10b981','#8b5cf6','#f59e0b','#14b8a6','#ec4899'];
+
+  if (sectorChart) {
+    sectorChart.data.labels = labels;
+    sectorChart.data.datasets[0].data = data;
+    sectorChart.data.datasets[0].backgroundColor = colors.slice(0, labels.length);
+    sectorChart.update();
+  } else {
+    const ctx = document.getElementById('sectorChart').getContext('2d');
+    sectorChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: { labels, datasets: [{ data, backgroundColor: colors.slice(0, labels.length), borderWidth: 2, borderColor: '#fff' }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 12 }, padding: 12 } } } }
+    });
+  }
+
+  const touchCounts = { T1: 0, T2: 0, T3: 0, T4: 0 };
+  prospects.forEach(p => {
+    if (p.t1 !== 'pending') touchCounts.T1++;
+    if (p.t2 !== 'pending') touchCounts.T2++;
+    if (p.t3 !== 'pending') touchCounts.T3++;
+    if (p.t4 !== 'pending') touchCounts.T4++;
+  });
+
+  if (touchChart) {
+    touchChart.data.datasets[0].data = Object.values(touchCounts);
+    touchChart.update();
+  } else {
+    const ctx2 = document.getElementById('touchChart').getContext('2d');
+    touchChart = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: ['Touch 1\nEmail', 'Touch 2\nLinkedIn', 'Touch 3\nFollow-up', 'Touch 4\nClose'],
+        datasets: [{
+          label: 'Touches Sent',
+          data: Object.values(touchCounts),
+          backgroundColor: ['#3b82f6','#8b5cf6','#f59e0b','#10b981'],
+          borderRadius: 6, borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, max: Math.max(prospects.length, 5), ticks: { stepSize: 1 }, grid: { color: '#f0f0f0' } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  }
+}
+
+// ── Actions ──────────────────────────────────────────────────────────────────
+const TOUCH_CYCLE = ['pending','sent','replied','bounced'];
+
+function cycleTouchStatus(id, touch) {
+  const p = prospects.find(x => x.id === id);
+  if (!p) return;
+  const cur = TOUCH_CYCLE.indexOf(p[touch]);
+  p[touch] = TOUCH_CYCLE[(cur + 1) % TOUCH_CYCLE.length];
+  // Auto-advance stage
+  if (p.t1 !== 'pending' && p.stage === 'prospect') p.stage = 'contacted';
+  if (['t1','t2','t3','t4'].some(t => p[t] === 'replied') && p.stage === 'contacted') p.stage = 'replied';
+  save();
+  renderTable();
+}
+
+function updateStage(id, val) {
+  const p = prospects.find(x => x.id === id);
+  if (p) { p.stage = val; save(); renderTable(); }
+}
+
+function updateResponse(id, val) {
+  const p = prospects.find(x => x.id === id);
+  if (p) { p.response = val; save(); }
+}
+
+function togglePriority(id) {
+  const p = prospects.find(x => x.id === id);
+  if (p) { p.priority = !p.priority; save(); renderTable(); }
+}
+
+function filterSector(sector, btn) {
+  activeFilter = sector;
+  activeStageFilter = null;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+function filterByStage(stage) {
+  activeStageFilter = activeStageFilter === stage ? null : stage;
+  renderTable();
+}
+
+function searchProspects(q) {
+  searchQuery = q;
+  renderTable();
+}
+
+function toggleAddForm() {
+  const f = document.getElementById('addForm');
+  f.classList.toggle('visible');
+  if (f.classList.contains('visible')) document.getElementById('f-company').focus();
+}
+
+function addProspect() {
+  const company = document.getElementById('f-company').value.trim();
+  if (!company) { alert('Company name is required.'); return; }
+  const p = {
+    id: nextId++,
+    company,
+    sector: document.getElementById('f-sector').value,
+    city: document.getElementById('f-city').value.trim(),
+    contact: document.getElementById('f-contact').value.trim(),
+    title: document.getElementById('f-title').value.trim(),
+    email: document.getElementById('f-email').value.trim(),
+    confidence: document.getElementById('f-confidence').value.trim(),
+    linkedin: document.getElementById('f-linkedin').value.trim(),
+    signal: document.getElementById('f-signal').value.trim(),
+    t1:'pending', t2:'pending', t3:'pending', t4:'pending',
+    stage:'prospect', response:'', priority:false
+  };
+  prospects.push(p);
+  save();
+  renderTable();
+  toggleAddForm();
+  ['f-company','f-city','f-contact','f-title','f-email','f-confidence','f-linkedin','f-signal'].forEach(id => document.getElementById(id).value = '');
+}
+
+function exportCSV() {
+  const headers = ['Company','Sector','City','Contact','Title','Email','Confidence','Signal','T1','T2','T3','T4','Stage','Response','Priority'];
+  const rows = prospects.map(p => [p.company,p.sector,p.city,p.contact,p.title,p.email,p.confidence,`"${(p.signal||'').replace(/"/g,'""')}"`,p.t1,p.t2,p.t3,p.t4,p.stage,`"${(p.response||'').replace(/"/g,'""')}"`,p.priority?'Yes':'No']);
+  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'tricord-prospects.csv';
+  a.click();
+}
+
+// ── Mailchimp (via cowork) ───────────────────────────────────────────────────
+async function loadMailchimp() {
+  if (!window.cowork) return;
+  try {
+    document.getElementById('mcDot').classList.add('loading');
+    document.getElementById('mcStatus').textContent = 'Loading Mailchimp…';
+    const result = await window.cowork.callMcpTool(
+      'mcp__2cf22e1d-e795-42a7-88ea-03332a46b97e__get_analytics_widget_data',
+      { query: 'recent campaigns sent opens clicks last 30 days' }
+    );
+    document.getElementById('mcDot').classList.remove('loading');
+    if (result && result.campaigns && result.campaigns.length) {
+      const rows = result.campaigns.slice(0, 6).map(c => `
+        <div class="mc-campaign-row">
+          <div>
+            <div class="mc-campaign-name">${c.name||c.subject||'Campaign'}</div>
+            <div class="mc-campaign-meta">${c.send_time ? new Date(c.send_time).toLocaleDateString() : 'Draft'} · ${c.status||''}</div>
+          </div>
+          <div class="mc-stats">
+            <div class="mc-stat"><div class="mc-stat-val">${c.opens_total||0}</div><div class="mc-stat-label">Opens</div></div>
+            <div class="mc-stat"><div class="mc-stat-val">${c.clicks_total||0}</div><div class="mc-stat-label">Clicks</div></div>
+            <div class="mc-stat"><div class="mc-stat-val">${c.open_rate ? Math.round(c.open_rate*100)+'%' : '—'}</div><div class="mc-stat-label">Rate</div></div>
+          </div>
+        </div>`).join('');
+      document.getElementById('mailchimpSection').innerHTML = `<div class="mc-campaigns">${rows}</div>`;
+      document.getElementById('mcStatus').textContent = 'Mailchimp connected';
+    } else {
+      document.getElementById('mcStatus').textContent = 'No campaigns yet';
+    }
+  } catch(e) {
+    document.getElementById('mcDot').classList.remove('loading');
+    document.getElementById('mcStatus').textContent = 'Mailchimp ready';
+  }
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+updateLastUpdated();
+renderTable();
+loadMailchimp();
+</script>
+</body>
+</html>

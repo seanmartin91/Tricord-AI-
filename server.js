@@ -46,6 +46,14 @@ app.get('/api/leads', (req, res) => {
   res.json(leads);
 });
 
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dashboard.html'));
+});
+
+app.get('/eval', (req, res) => {
+  res.sendFile(path.join(__dirname, 'eval_review.html'));
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
