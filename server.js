@@ -155,7 +155,6 @@ app.post('/api/ai/chat', async (req, res) => {
 // ── Page routes ───────────────────────────────────────────────────────────────
 
 app.get('/dashboard', (_req, res) => res.sendFile(path.join(__dirname, 'dashboard.html')));
-app.get('/outreach', (_req, res) => res.sendFile(path.join(__dirname, 'outreach.html')));
 app.get('/eval',     (_req, res) => res.sendFile(path.join(__dirname, 'eval_review.html')));
 app.get('*',         (_req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 

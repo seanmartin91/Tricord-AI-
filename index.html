@@ -1,462 +1,1232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tricord AI — Turn AI Hype Into Hard ROI</title>
-  <meta name="description" content="Practical, secure AI applications and Copilot integrations for Ontario SMBs in manufacturing, trades, and professional services." />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              orange: '#f97316',
-              'orange-dark': '#ea580c',
-              bg: '#0d0f12',
-              card: '#161a20',
-              'card-hover': '#1d2229',
-              border: '#2a2f38',
-              muted: '#6b7280',
-              subtle: '#9ca3af',
-            }
-          },
-          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
-        }
-      }
-    }
-  </script>
-  <style>
-    html { scroll-behavior: smooth; }
-    body { background-color: #0d0f12; color: #f1f5f9; font-family: 'Inter', sans-serif; }
-    .gradient-text { background: linear-gradient(135deg, #f97316, #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .card-glow { box-shadow: 0 0 0 1px rgba(249,115,22,0.4), 0 20px 60px rgba(249,115,22,0.08); }
-    .btn-primary { background: linear-gradient(135deg, #f97316, #ea580c); transition: all 0.2s; }
-    .btn-primary:hover { background: linear-gradient(135deg, #fb923c, #f97316); transform: translateY(-1px); box-shadow: 0 8px 25px rgba(249,115,22,0.35); }
-    .nav-blur { backdrop-filter: blur(16px); background: rgba(13,15,18,0.85); border-bottom: 1px solid rgba(42,47,56,0.6); }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-fade-up { animation: fadeUp 0.6s ease forwards; }
-    .delay-100 { animation-delay: 0.1s; opacity: 0; }
-    .delay-200 { animation-delay: 0.2s; opacity: 0; }
-    .delay-300 { animation-delay: 0.3s; opacity: 0; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRICORD Outreach Hub</title>
+<style>
+:root {
+  --navy: #1a1a2e;
+  --navy2: #16213e;
+  --orange: #e85d04;
+  --orange2: #c94e00;
+  --bg: #f0f2f5;
+  --surface: #ffffff;
+  --border: #e5e7eb;
+  --muted: #6b7280;
+  --text: #1a1a2e;
+  --green: #10b981;
+  --amber: #f59e0b;
+  --blue: #3b82f6;
+  --purple: #8b5cf6;
+  --red: #ef4444;
+  --radius: 10px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── Header ── */
+.hdr{background:var(--navy);color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:3px solid var(--orange)}
+.hdr-left{display:flex;align-items:center;gap:12px}
+.logo{width:34px;height:34px;background:var(--orange);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;letter-spacing:-1px}
+.hdr h1{font-size:16px;font-weight:700}
+.hdr-sub{font-size:11px;color:#8b9ab3;margin-top:1px}
+.hdr-right{display:flex;gap:10px;align-items:center}
+.status-row{display:flex;gap:8px}
+.api-badge{display:flex;align-items:center;gap:4px;font-size:11px;padding:3px 8px;border-radius:20px;background:rgba(255,255,255,0.08);color:#ccc}
+.api-badge .dot{width:6px;height:6px;border-radius:50%;background:#4b5563}
+.api-badge.ok .dot{background:var(--green)}
+.api-badge.warn .dot{background:var(--amber);animation:pulse 1.5s infinite}
+.btn{padding:6px 13px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:.15s;font-family:inherit}
+.btn-orange{background:var(--orange);color:#fff}.btn-orange:hover{background:var(--orange2)}
+.btn-ghost{background:rgba(255,255,255,0.1);color:#fff}.btn-ghost:hover{background:rgba(255,255,255,0.2)}
+.btn-sm{padding:4px 10px;font-size:11px}
+
+/* ── Tabs ── */
+.tabs{background:var(--navy2);display:flex;gap:0;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.tab-btn{padding:11px 22px;font-size:13px;font-weight:600;color:#8b9ab3;background:none;border:none;cursor:pointer;font-family:inherit;border-bottom:3px solid transparent;transition:.15s;display:flex;align-items:center;gap:6px}
+.tab-btn:hover{color:#e2e8f0}
+.tab-btn.active{color:#fff;border-bottom-color:var(--orange)}
+.tab-icon{font-size:15px}
+
+/* ── Layout ── */
+.tab-panel{display:none;flex:1;overflow:hidden}
+.tab-panel.active{display:flex;flex-direction:column}
+.panel-body{flex:1;overflow:hidden;display:flex;gap:0}
+
+/* ── Card ── */
+.card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+.card-hdr{padding:11px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.card-title{font-weight:700;font-size:13px}
+.card-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.card-body{padding:14px;overflow-y:auto;flex:1}
+
+/* ── Sales tab ── */
+.sales-grid{display:grid;grid-template-columns:300px 1fr 320px;gap:14px;padding:14px;flex:1;overflow:hidden;min-height:0}
+.sales-col{display:flex;flex-direction:column;gap:14px;min-height:0;overflow:hidden}
+
+/* Contact card */
+.contact-card{padding:10px 12px;border-bottom:1px solid var(--border);cursor:pointer;transition:.1s}
+.contact-card:hover{background:#f9fafb}
+.contact-card.selected{background:#fff8f5;border-left:3px solid var(--orange)}
+.cc-name{font-weight:600;font-size:13px}
+.cc-company{font-size:12px;color:var(--muted)}
+.cc-email{font-size:11px;color:var(--blue);margin-top:2px}
+.stage-pill{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:600}
+.stage-lead{background:#dbeafe;color:#1d4ed8}
+.stage-prospect{background:#ede9fe;color:#6d28d9}
+.stage-opportunity{background:#d1fae5;color:#065f46}
+.stage-customer{background:#fef3c7;color:#92400e}
+
+/* Hunter results */
+.hunter-result{padding:9px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.hunter-email{font-size:12px;font-weight:600;color:var(--text)}
+.hunter-meta{font-size:11px;color:var(--muted)}
+.conf-bar{width:60px;height:5px;border-radius:3px;background:#f0f0f0;margin-top:3px}
+.conf-fill{height:100%;border-radius:3px}
+
+/* AI Chat */
+.chat-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:0}
+.msg{max-width:85%;padding:8px 12px;border-radius:8px;font-size:12px;line-height:1.5}
+.msg.user{background:var(--orange);color:#fff;align-self:flex-end;border-bottom-right-radius:2px}
+.msg.ai{background:#f3f4f6;color:var(--text);align-self:flex-start;border-bottom-left-radius:2px}
+.msg.system{background:#fffbeb;color:#92400e;align-self:center;font-size:11px;font-style:italic;max-width:95%}
+.chat-input-row{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border);flex-shrink:0}
+.chat-input{flex:1;border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:12px;font-family:inherit;resize:none;height:60px}
+.chat-input:focus{outline:2px solid var(--orange);border-color:transparent}
+
+/* ── Marketing tab ── */
+.marketing-grid{display:grid;grid-template-columns:260px 1fr;gap:14px;padding:14px;flex:1;overflow:hidden;min-height:0}
+.mkt-actions{display:flex;flex-direction:column;gap:8px}
+.action-btn{padding:10px 14px;border-radius:8px;border:2px solid var(--border);background:#fff;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
+.action-btn:hover{border-color:var(--orange);background:#fff8f5}
+.action-btn.active{border-color:var(--orange);background:#fff8f5}
+.action-btn .ab-icon{font-size:18px;margin-bottom:4px}
+.action-btn .ab-title{font-weight:700;font-size:12px;color:var(--text)}
+.action-btn .ab-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.content-output{font-size:13px;line-height:1.7;white-space:pre-wrap;min-height:200px;color:var(--text)}
+.output-toolbar{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--border);flex-shrink:0}
+
+/* ── Email tab ── */
+.email-grid{display:grid;grid-template-columns:340px 1fr;gap:14px;padding:14px;flex:1;overflow:hidden;min-height:0}
+.campaign-row{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:.1s}
+.campaign-row:hover{background:#f9fafb}
+.cr-name{font-weight:600;font-size:12px}
+.cr-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.cr-stats{display:flex;gap:14px;margin-top:6px}
+.cr-stat-val{font-weight:700;font-size:13px}
+.cr-stat-label{font-size:10px;color:var(--muted);text-transform:uppercase}
+.email-form{display:flex;flex-direction:column;gap:12px}
+.fld label{font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:3px}
+.fld input,.fld textarea,.fld select{width:100%;border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:13px;font-family:inherit;color:var(--text)}
+.fld input:focus,.fld textarea:focus,.fld select:focus{outline:2px solid var(--orange);border-color:transparent}
+.fld textarea{resize:vertical;height:120px}
+
+/* ── LinkedIn tab ── */
+.li-grid{display:grid;grid-template-columns:300px 1fr;gap:14px;padding:14px;flex:1;overflow:hidden;min-height:0}
+.li-prospect{padding:10px 12px;border-bottom:1px solid var(--border);cursor:pointer;transition:.1s;display:flex;align-items:center;gap:10px}
+.li-prospect:hover{background:#f9fafb}
+.li-prospect.selected{background:#f0f7ff;border-left:3px solid var(--blue)}
+.li-avatar{width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.li-name{font-weight:600;font-size:12px}
+.li-company{font-size:11px;color:var(--muted)}
+.li-stage-dot{width:8px;height:8px;border-radius:50%;background:var(--border);margin-left:auto;flex-shrink:0}
+.li-stage-dot.sent{background:var(--green)}
+.li-stage-dot.pending{background:var(--amber)}
+.template-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0}
+.tmpl-btn{padding:8px 14px;font-size:12px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;transition:.1s}
+.tmpl-btn.active{color:var(--navy);border-bottom-color:var(--blue)}
+.msg-display{flex:1;overflow-y:auto;padding:14px;font-size:13px;line-height:1.7;white-space:pre-wrap;color:var(--text);min-height:0}
+.char-count{font-size:11px;color:var(--muted);padding:4px 14px}
+
+/* ── Shared ── */
+.search-row{display:flex;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.search-input{flex:1;border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:12px;font-family:inherit}
+.search-input:focus{outline:2px solid var(--orange);border-color:transparent}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .6s linear infinite}
+.empty{text-align:center;color:var(--muted);padding:32px 16px;font-size:12px}
+.tag{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:600;background:#ede9fe;color:#6d28d9}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:#fff;padding:10px 16px;border-radius:8px;font-size:12px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── Sales footer bar ── */
+.action-bar{background:var(--navy2);padding:10px 14px;display:flex;gap:10px;align-items:center;border-top:1px solid rgba(255,255,255,0.07);flex-shrink:0}
+.action-bar-label{font-size:11px;color:#8b9ab3;margin-right:4px}
+.cowork-status{font-size:11px;color:#8b9ab3;margin-left:auto;display:flex;align-items:center;gap:6px}
+.cowork-dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+
+/* Settings modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:12px;padding:24px;width:420px;max-width:95vw}
+.modal h2{font-size:16px;font-weight:700;margin-bottom:4px}
+.modal p{font-size:12px;color:var(--muted);margin-bottom:16px}
+.modal .fld{margin-bottom:12px}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="nav-blur fixed top-0 left-0 right-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-2.5">
-        <div class="w-8 h-8 rounded-lg btn-primary flex items-center justify-center flex-shrink-0">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M3 9 L9 3 L15 9 L9 15 Z" stroke="white" stroke-width="1.5" fill="none"/>
-            <circle cx="9" cy="9" r="2" fill="white"/>
-            <path d="M9 3 L9 6 M9 12 L9 15 M3 9 L6 9 M12 9 L15 9" stroke="white" stroke-width="1.2"/>
-          </svg>
-        </div>
-        <span class="font-bold text-lg tracking-tight text-white">Tricord <span class="gradient-text">AI</span></span>
-      </a>
-      <div class="hidden md:flex items-center gap-8 text-sm text-slate-400">
-        <a href="#services" class="hover:text-white transition-colors">Services</a>
-        <a href="#roi" class="hover:text-white transition-colors">ROI Calculator</a>
-        <a href="#process" class="hover:text-white transition-colors">Process</a>
-        <a href="#contact" class="hover:text-white transition-colors">Contact</a>
-      </div>
-      <a href="#contact" class="btn-primary text-white text-sm font-semibold px-5 py-2.5 rounded-lg">
-        Book a Call
-      </a>
+<!-- Header -->
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="logo">TRI</div>
+    <div>
+      <h1>TRICORD Outreach Hub</h1>
+      <div class="hdr-sub">AI Strategy &amp; Governance · Ontario Pipeline</div>
     </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="pt-32 pb-20 px-4 sm:px-6 max-w-6xl mx-auto">
-    <div class="max-w-2xl">
-      <div class="inline-flex items-center gap-2 bg-brand-card border border-brand-border rounded-full px-4 py-1.5 text-sm text-brand-subtle mb-8 animate-fade-up">
-        <span class="w-2 h-2 rounded-full bg-brand-orange animate-pulse"></span>
-        Niagara's Enterprise AI Partner
-      </div>
-
-      <h1 class="text-5xl sm:text-6xl font-black leading-[1.05] tracking-tight mb-6 animate-fade-up delay-100">
-        Turn AI hype<br />into <span class="gradient-text">hard ROI.</span>
-      </h1>
-
-      <p class="text-xl text-slate-400 leading-relaxed mb-10 animate-fade-up delay-200">
-        We build practical, secure AI applications and Copilot integrations for Ontario SMBs in manufacturing, trades, and professional services. No experiments. Just results.
-      </p>
-
-      <div class="flex flex-col sm:flex-row gap-3 animate-fade-up delay-300">
-        <a href="#contact" class="btn-primary text-white font-semibold px-8 py-4 rounded-xl text-center text-lg">
-          Start Your Assessment &rarr;
-        </a>
-        <a href="#services" class="bg-brand-card border border-brand-border text-white font-semibold px-8 py-4 rounded-xl text-center text-lg hover:bg-brand-card-hover transition-colors">
-          View Solutions
-        </a>
-      </div>
+  </div>
+  <div class="hdr-right">
+    <div class="status-row" id="statusRow">
+      <div class="api-badge" id="badge-hubspot"><span class="dot"></span>HubSpot</div>
+      <div class="api-badge" id="badge-hunter"><span class="dot"></span>Hunter.io</div>
+      <div class="api-badge" id="badge-ai"><span class="dot"></span>AI Agent</div>
+      <div class="api-badge" id="badge-cowork"><span class="dot"></span>Cowork</div>
     </div>
+    <button class="btn btn-ghost btn-sm" onclick="openSettings()">⚙ Keys</button>
+    <a href="/dashboard" class="btn btn-ghost btn-sm">Pipeline ↗</a>
+  </div>
+</div>
 
-    <!-- STATS BAR -->
-    <div class="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-px bg-brand-border rounded-2xl overflow-hidden border border-brand-border">
-      <div class="bg-brand-card px-6 py-5 text-center">
-        <div class="text-3xl font-black text-white">15+</div>
-        <div class="text-xs text-brand-muted mt-1 uppercase tracking-wider">Yrs IT Exp.</div>
-      </div>
-      <div class="bg-brand-card px-6 py-5 text-center">
-        <div class="flex justify-center mb-1">
-          <svg class="w-7 h-7 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-        </div>
-        <div class="text-xs text-brand-muted uppercase tracking-wider">MS Certified</div>
-      </div>
-      <div class="bg-brand-card px-6 py-5 text-center">
-        <div class="text-3xl font-black text-white">37%</div>
-        <div class="text-xs text-brand-muted mt-1 uppercase tracking-wider">Avg Productivity Lift</div>
-      </div>
-      <div class="bg-brand-card px-6 py-5 text-center">
-        <div class="text-3xl font-black text-white">&lt;6wk</div>
-        <div class="text-xs text-brand-muted mt-1 uppercase tracking-wider">First Deployment</div>
-      </div>
-    </div>
-  </section>
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('sales',this)"><span class="tab-icon">💼</span> Sales</button>
+  <button class="tab-btn" onclick="switchTab('marketing',this)"><span class="tab-icon">📣</span> Marketing</button>
+  <button class="tab-btn" onclick="switchTab('email',this)"><span class="tab-icon">✉️</span> Email</button>
+  <button class="tab-btn" onclick="switchTab('linkedin',this)"><span class="tab-icon">🔗</span> LinkedIn</button>
+</div>
 
-  <!-- SERVICES / PRICING -->
-  <section id="services" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto">
-    <div class="text-center mb-14">
-      <h2 class="text-4xl font-black text-white mb-4">Services &amp; Pricing</h2>
-      <p class="text-slate-400 text-lg max-w-xl mx-auto">Three clear engagement types — no vague retainers, no scope creep.</p>
-    </div>
+<!-- ═══════════════════════════════════════════════════════════
+     TAB: SALES
+════════════════════════════════════════════════════════════ -->
+<div class="tab-panel active" id="panel-sales">
+  <div class="panel-body sales-grid">
 
-    <div class="grid md:grid-cols-3 gap-6">
-
-      <!-- Card 1: Assessment -->
-      <div class="bg-brand-card border border-brand-border rounded-2xl p-8 flex flex-col hover:border-slate-600 transition-colors">
-        <div class="w-10 h-10 rounded-xl bg-brand-bg border border-brand-border flex items-center justify-center mb-6 text-brand-orange">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-1">AI Readiness Assessment</h3>
-        <p class="text-2xl font-black text-brand-orange mb-1">$10K &ndash; $15K</p>
-        <div class="border-t border-brand-border my-4"></div>
-        <p class="text-slate-400 text-sm mb-6">A 2-week deep dive into your infrastructure to build a practical AI roadmap.</p>
-        <ul class="space-y-2.5 flex-1">
-          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Data security audit</li>
-          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Microsoft Copilot fit analysis</li>
-          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Process bottleneck identification</li>
-          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Exec presentation &amp; roadmap</li>
-        </ul>
-        <a href="#contact" class="mt-8 block text-center border border-brand-border text-white text-sm font-semibold py-3 rounded-xl hover:bg-brand-card-hover transition-colors">
-          Get Started
-        </a>
-      </div>
-
-      <!-- Card 2: Build (MOST POPULAR) -->
-      <div class="bg-brand-card card-glow border border-brand-orange/40 rounded-2xl p-8 flex flex-col relative">
-        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2">
-          <span class="btn-primary text-white text-xs font-bold px-4 py-1.5 rounded-full tracking-wider uppercase">Most Popular</span>
-        </div>
-        <div class="w-10 h-10 rounded-xl bg-brand-bg border border-brand-border flex items-center justify-center mb-6 text-brand-orange">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-1">Custom AI App Build</h3>
-        <p class="text-2xl font-black text-brand-orange mb-1">$25K &ndash; $45K</p>
-        <div class="border-t border-brand-border my-4"></div>
-        <p class="text-slate-400 text-sm mb-6">Bespoke AI tools engineered for your specific operational challenges.</p>
-        <ul class="space-y-2.5 flex-1">
-          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Internal knowledge chatbots</li>
-          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Automated quoting systems</li>
-          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Inventory predictive analysis</li>
-          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Secure local LLM deployment</li>
-        </ul>
-        <a href="#contact" class="mt-8 block text-center btn-primary text-white text-sm font-semibold py-3 rounded-xl">
-          Start Building &rarr;
-        </a>
-      </div>
-
-      <!-- Card 3: Optimization -->
-      <div class="bg-brand-card border border-brand-border rounded-2xl p-8 flex flex-col hover:border-slate-600 transition-colors">
-        <div class="w-10 h-10 rounded-xl bg-brand-bg border border-brand-border flex items-center justify-center mb-6 text-brand-orange">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        </div>
-        <h3 class="text-xl font-bold text-white mb-1">Optimization &amp; Support</h3>
-        <p class="text-2xl font-black text-brand-orange mb-1">$3K &ndash; $5K <span class="text-base font-semibold text-slate-400">/ mo</span></p>
-        <div class="border-t border-brand-border my-4"></div>
-        <p class="text-slate-400 text-sm mb-6">Ongoing refinement, prompt engineering, and staff training.</p>
-        <ul class="space-y-2.5 flex-1">
-          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Monthly use-case discovery</li>
-          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Staff training &amp; adoption</li>
-          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Security patching &amp; updates</li>
-          <li class="flex items-start gap-2.5 text-sm text-slate-300"><span class="text-brand-orange font-bold mt-0.5">&rsaquo;</span> Performance monitoring</li>
-        </ul>
-        <a href="#contact" class="mt-8 block text-center border border-brand-border text-white text-sm font-semibold py-3 rounded-xl hover:bg-brand-card-hover transition-colors">
-          Get Started
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ROI CALCULATOR -->
-  <section id="roi" class="py-20 px-4 sm:px-6 bg-brand-card border-y border-brand-border">
-    <div class="max-w-3xl mx-auto">
-      <div class="text-center mb-12">
-        <h2 class="text-4xl font-black text-white mb-4">Copilot ROI Calculator</h2>
-        <p class="text-slate-400 text-lg">See your estimated annual productivity gains in 30 seconds.</p>
-      </div>
-
-      <div class="bg-brand-bg border border-brand-border rounded-2xl p-8">
-        <div class="grid sm:grid-cols-2 gap-6 mb-8">
+    <!-- Col 1: HubSpot -->
+    <div class="sales-col">
+      <div class="card" style="flex:1;min-height:0">
+        <div class="card-hdr">
           <div>
-            <label class="block text-sm font-medium text-slate-300 mb-2">Number of Employees Using Copilot</label>
-            <input id="roi-employees" type="number" value="25" min="1" max="10000"
-              class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white text-lg font-semibold focus:outline-none focus:border-brand-orange transition-colors" />
+            <div class="card-title">HubSpot CRM</div>
+            <div class="card-sub" id="hs-sub">Loading contacts…</div>
           </div>
+          <button class="btn btn-orange btn-sm" onclick="loadHubspot()">↺ Refresh</button>
+        </div>
+        <div class="search-row">
+          <input class="search-input" id="hs-search" placeholder="Search contacts…" oninput="debounce(searchHubspot, 400)(this.value)">
+        </div>
+        <div class="card-body" style="padding:0" id="hs-list">
+          <div class="empty">Loading HubSpot contacts…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Col 2: Hunter.io + Selected contact -->
+    <div class="sales-col">
+      <div class="card" style="flex:0 0 auto">
+        <div class="card-hdr">
           <div>
-            <label class="block text-sm font-medium text-slate-300 mb-2">Average Annual Salary ($)</label>
-            <input id="roi-salary" type="number" value="65000" min="1"
-              class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white text-lg font-semibold focus:outline-none focus:border-brand-orange transition-colors" />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-slate-300 mb-2">Hours Saved Per Employee / Week</label>
-            <input id="roi-hours" type="number" value="5" min="0.5" max="40" step="0.5"
-              class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white text-lg font-semibold focus:outline-none focus:border-brand-orange transition-colors" />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-slate-300 mb-2">Productivity Uplift (%)</label>
-            <input id="roi-uplift" type="number" value="37" min="1" max="100"
-              class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white text-lg font-semibold focus:outline-none focus:border-brand-orange transition-colors" />
+            <div class="card-title">Hunter.io Email Finder</div>
+            <div class="card-sub">Domain search · verify emails</div>
           </div>
         </div>
-
-        <div class="grid sm:grid-cols-3 gap-4 mb-8">
-          <div class="bg-brand-card border border-brand-border rounded-xl p-5 text-center">
-            <div class="text-3xl font-black text-brand-orange mb-1" id="roi-annual">$0</div>
-            <div class="text-xs text-brand-muted uppercase tracking-wider">Annual Value Gained</div>
-          </div>
-          <div class="bg-brand-card border border-brand-border rounded-xl p-5 text-center">
-            <div class="text-3xl font-black text-white mb-1" id="roi-monthly">$0</div>
-            <div class="text-xs text-brand-muted uppercase tracking-wider">Monthly Value</div>
-          </div>
-          <div class="bg-brand-card border border-brand-border rounded-xl p-5 text-center">
-            <div class="text-3xl font-black text-white mb-1" id="roi-payback">0 mo</div>
-            <div class="text-xs text-brand-muted uppercase tracking-wider">Payback Period</div>
-          </div>
+        <div class="search-row">
+          <input class="search-input" id="hunter-domain" placeholder="domain.com" style="flex:2">
+          <button class="btn btn-orange btn-sm" onclick="runHunter()" id="hunter-btn">Search</button>
+          <button class="btn btn-sm" style="background:#f3f4f6" onclick="verifyEmail()" id="verify-btn">Verify</button>
         </div>
+        <div id="hunter-results">
+          <div class="empty">Enter a domain to find email addresses</div>
+        </div>
+      </div>
 
-        <p class="text-xs text-brand-muted text-center">Based on Microsoft Copilot productivity research. Actual results vary by role and adoption rate.</p>
+      <div class="card" style="flex:1;min-height:0">
+        <div class="card-hdr">
+          <div class="card-title">Selected Contact</div>
+          <button class="btn btn-sm" style="background:#f3f4f6;font-size:11px" onclick="pushToHubspot()" id="push-hs-btn" disabled>+ Push to HubSpot</button>
+        </div>
+        <div class="card-body" id="selected-contact-panel">
+          <div class="empty">Select a contact or Hunter result</div>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- PROCESS -->
-  <section id="process" class="py-20 px-4 sm:px-6 max-w-6xl mx-auto">
-    <div class="text-center mb-14">
-      <h2 class="text-4xl font-black text-white mb-4">How We Work</h2>
-      <p class="text-slate-400 text-lg max-w-xl mx-auto">A clear four-step process from discovery to results.</p>
-    </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="bg-brand-card border border-brand-border rounded-2xl p-7">
-        <div class="text-5xl font-black text-brand-orange/20 mb-4">01</div>
-        <h3 class="text-lg font-bold text-white mb-2">Discovery Call</h3>
-        <p class="text-sm text-slate-400">30-minute no-obligation call to understand your operations and biggest pain points.</p>
-      </div>
-      <div class="bg-brand-card border border-brand-border rounded-2xl p-7">
-        <div class="text-5xl font-black text-brand-orange/20 mb-4">02</div>
-        <h3 class="text-lg font-bold text-white mb-2">AI Readiness Audit</h3>
-        <p class="text-sm text-slate-400">Deep dive into your data, security posture, and processes. Deliverable: prioritized roadmap.</p>
-      </div>
-      <div class="bg-brand-card border border-brand-border rounded-2xl p-7">
-        <div class="text-5xl font-black text-brand-orange/20 mb-4">03</div>
-        <h3 class="text-lg font-bold text-white mb-2">Build &amp; Deploy</h3>
-        <p class="text-sm text-slate-400">Rapid prototyping with weekly demos. Production deployment in under 6 weeks.</p>
-      </div>
-      <div class="bg-brand-card border border-brand-border rounded-2xl p-7">
-        <div class="text-5xl font-black text-brand-orange/20 mb-4">04</div>
-        <h3 class="text-lg font-bold text-white mb-2">Optimize &amp; Scale</h3>
-        <p class="text-sm text-slate-400">Ongoing monitoring, prompt tuning, and staff training to keep ROI compounding.</p>
+    <!-- Col 3: AI Agent -->
+    <div class="sales-col">
+      <div class="card" style="flex:1;min-height:0">
+        <div class="card-hdr">
+          <div>
+            <div class="card-title">AI Outreach Agent</div>
+            <div class="card-sub">Powered by Claude · TRICORD context</div>
+          </div>
+          <button class="btn btn-sm btn-ghost" style="background:#f3f4f6;color:var(--muted)" onclick="clearChat()">Clear</button>
+        </div>
+        <div class="chat-msgs" id="chat-msgs">
+          <div class="msg system">Ask me to draft a cold email, LinkedIn message, or follow-up for any prospect. I have full TRICORD context loaded.</div>
+        </div>
+        <div class="chat-input-row">
+          <textarea class="chat-input" id="chat-input" placeholder="e.g. Draft a Touch 1 email for a Hamilton law firm, Managing Partner called Sarah…" onkeydown="chatKey(event)"></textarea>
+          <button class="btn btn-orange" onclick="sendChat()" id="chat-send">Send</button>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- WHY US / CTA BANNER -->
-  <section class="py-20 px-4 sm:px-6 bg-brand-card border-y border-brand-border">
-    <div class="max-w-6xl mx-auto">
-      <div class="grid lg:grid-cols-2 gap-12 items-center">
+  <!-- Action bar -->
+  <div class="action-bar">
+    <span class="action-bar-label">Cowork actions:</span>
+    <button class="btn btn-orange btn-sm" onclick="coworkOutreach()">🤖 AI Outreach Sequence</button>
+    <button class="btn btn-sm" style="background:rgba(255,255,255,0.1);color:#fff" onclick="coworkMailchimp()">📤 Queue Mailchimp Draft</button>
+    <button class="btn btn-sm" style="background:rgba(255,255,255,0.1);color:#fff" onclick="coworkEnrich()">🔍 Enrich Prospect</button>
+    <div class="cowork-status"><div class="cowork-dot" id="cowork-dot"></div><span id="cowork-label">Cowork ready</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB: MARKETING
+════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-marketing">
+  <div class="panel-body marketing-grid">
+
+    <!-- Left: action buttons -->
+    <div class="card" style="overflow:hidden">
+      <div class="card-hdr"><div class="card-title">Generate Content</div></div>
+      <div class="card-body" style="padding:12px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Outreach</div>
+        <button class="action-btn active" id="mkt-btn-cold-email" onclick="setMktAction('cold-email',this)">
+          <div class="ab-icon">✉️</div>
+          <div class="ab-title">Cold Email (T1)</div>
+          <div class="ab-sub">Touch 1 · sector-specific</div>
+        </button>
+        <button class="action-btn" id="mkt-btn-follow-email" onclick="setMktAction('follow-email',this)">
+          <div class="ab-icon">↩️</div>
+          <div class="ab-title">Follow-up Email (T3)</div>
+          <div class="ab-sub">7-day follow-up sequence</div>
+        </button>
+        <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:8px 0 4px">Social &amp; Content</div>
+        <button class="action-btn" id="mkt-btn-linkedin-post" onclick="setMktAction('linkedin-post',this)">
+          <div class="ab-icon">🔗</div>
+          <div class="ab-title">LinkedIn Post</div>
+          <div class="ab-sub">Thought leadership · AI governance</div>
+        </button>
+        <button class="action-btn" id="mkt-btn-landing-page" onclick="setMktAction('landing-page',this)">
+          <div class="ab-icon">🌐</div>
+          <div class="ab-title">Landing Page Copy</div>
+          <div class="ab-sub">Sector-specific headline + CTA</div>
+        </button>
+        <button class="action-btn" id="mkt-btn-case-study" onclick="setMktAction('case-study',this)">
+          <div class="ab-icon">📋</div>
+          <div class="ab-title">Case Study Intro</div>
+          <div class="ab-sub">Problem / solution / result</div>
+        </button>
+        <button class="action-btn" id="mkt-btn-social" onclick="setMktAction('social',this)">
+          <div class="ab-icon">📱</div>
+          <div class="ab-title">Social Media Set</div>
+          <div class="ab-sub">3× posts for LinkedIn + X</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right: inputs + output -->
+    <div class="card" style="min-height:0">
+      <div class="card-hdr">
         <div>
-          <h2 class="text-4xl font-black text-white mb-6">Ready to upgrade your operations?</h2>
-          <p class="text-lg text-slate-400 mb-8">Stop wondering if AI is right for your business. Let's look at your data, your processes, and your goals to find out exactly where the value lies.</p>
-          <div class="space-y-4">
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-xl bg-brand-bg border border-brand-border flex items-center justify-center flex-shrink-0 text-brand-orange">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-              </div>
-              <div>
-                <div class="font-semibold text-white">Enterprise Security First</div>
-                <div class="text-sm text-slate-400">Your data never trains public models.</div>
-              </div>
+          <div class="card-title" id="mkt-output-title">Cold Email — Touch 1</div>
+          <div class="card-sub" id="mkt-output-sub">Configure inputs, then Generate</div>
+        </div>
+        <button class="btn btn-orange btn-sm" onclick="generateContent()" id="mkt-gen-btn">⚡ Generate</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);flex-shrink:0">
+        <div class="fld">
+          <label>Company Name</label>
+          <input id="mkt-company" placeholder="Acme Law LLP">
+        </div>
+        <div class="fld">
+          <label>Contact Name</label>
+          <input id="mkt-contact" placeholder="Jane Smith">
+        </div>
+        <div class="fld">
+          <label>Sector</label>
+          <select id="mkt-sector">
+            <option value="Legal">Legal / Law Firm</option>
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="CPA">CPA / Accounting</option>
+            <option value="Pharma">Pharma / Life Sciences</option>
+            <option value="Engineering">Engineering / Architecture</option>
+            <option value="Insurance">Insurance</option>
+            <option value="Healthcare">Healthcare</option>
+          </select>
+        </div>
+        <div class="fld" style="grid-column:span 3">
+          <label>AI Signal / Context (optional)</label>
+          <input id="mkt-signal" placeholder="e.g. Publicly mentioned Copilot adoption, no IT policy on site, 60+ lawyers">
+        </div>
+      </div>
+      <div class="card-body content-output" id="mkt-output">
+        <span style="color:var(--muted);font-style:italic">Generated content will appear here…</span>
+      </div>
+      <div class="output-toolbar">
+        <button class="btn btn-sm" style="background:#f3f4f6" onclick="copyOutput()">📋 Copy</button>
+        <button class="btn btn-sm" style="background:#f3f4f6" onclick="downloadOutput()">⬇ Download .txt</button>
+        <button class="btn btn-sm btn-orange" onclick="sendToEmail()">→ Send to Email Tab</button>
+        <button class="btn btn-sm" style="background:#dbeafe;color:#1d4ed8" onclick="sendToLinkedIn()">→ Send to LinkedIn Tab</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB: EMAIL MARKETING
+════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-email">
+  <div class="panel-body email-grid">
+
+    <!-- Left: Mailchimp campaigns -->
+    <div class="card" style="min-height:0">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">Mailchimp Campaigns</div>
+          <div class="card-sub" id="mc-sub">Via Cowork integration</div>
+        </div>
+        <button class="btn btn-orange btn-sm" onclick="loadCampaigns()" id="load-mc-btn">Load</button>
+      </div>
+      <div id="mc-list" style="overflow-y:auto;flex:1">
+        <div class="empty">Click Load to fetch recent Mailchimp campaigns via Cowork</div>
+      </div>
+    </div>
+
+    <!-- Right: Campaign builder -->
+    <div class="card" style="min-height:0">
+      <div class="card-hdr">
+        <div class="card-title">Campaign Builder</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm" style="background:#f3f4f6" onclick="previewEmail()">👁 Preview</button>
+          <button class="btn btn-orange btn-sm" onclick="saveToMailchimp()" id="save-mc-btn">💾 Save to Mailchimp</button>
+        </div>
+      </div>
+      <div class="card-body" style="overflow-y:auto">
+        <div class="email-form">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="fld">
+              <label>Campaign Name *</label>
+              <input id="em-name" placeholder="TRICORD — Legal Firms May 2026">
             </div>
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-xl bg-brand-bg border border-brand-border flex items-center justify-center flex-shrink-0 text-brand-orange">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              </div>
-              <div>
-                <div class="font-semibold text-white">Rapid Deployment</div>
-                <div class="text-sm text-slate-400">Functional prototypes in weeks, not months.</div>
-              </div>
-            </div>
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-xl bg-brand-bg border border-brand-border flex items-center justify-center flex-shrink-0 text-brand-orange">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-              </div>
-              <div>
-                <div class="font-semibold text-white">Local Niagara Expertise</div>
-                <div class="text-sm text-slate-400">We know Ontario SMBs — no cookie-cutter solutions.</div>
-              </div>
+            <div class="fld">
+              <label>Subject Line *</label>
+              <input id="em-subject" placeholder="Is your firm's AI use actually compliant?">
             </div>
           </div>
-        </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="fld">
+              <label>From Name</label>
+              <input id="em-from-name" value="Dwight G. — TRICORD I.T Solutions">
+            </div>
+            <div class="fld">
+              <label>Reply-To Email</label>
+              <input id="em-reply-to" value="info@tricordit.ca" placeholder="info@tricordit.ca">
+            </div>
+          </div>
+          <div class="fld">
+            <label>Target Audience / Segment</label>
+            <input id="em-audience" placeholder="Ontario Law Firms — Managing Partners">
+          </div>
+          <div class="fld">
+            <label>Email Body *</label>
+            <textarea id="em-body" style="height:200px" placeholder="Hi [FirstName],
 
-        <!-- CONTACT FORM -->
-        <div id="contact" class="bg-brand-bg border border-brand-border rounded-2xl p-8">
-          <h3 class="text-2xl font-black text-white mb-6">Request a Consultation</h3>
-          <form id="contact-form" class="space-y-4">
-            <div class="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1.5">First Name</label>
-                <input type="text" name="firstName" required placeholder="Jane"
-                  class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange transition-colors" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1.5">Last Name</label>
-                <input type="text" name="lastName" required placeholder="Smith"
-                  class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange transition-colors" />
-              </div>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-300 mb-1.5">Work Email</label>
-              <input type="email" name="email" required placeholder="jane@company.ca"
-                class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange transition-colors" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-300 mb-1.5">Company</label>
-              <input type="text" name="company" placeholder="Acme Manufacturing"
-                class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange transition-colors" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-300 mb-1.5">Industry</label>
-              <select name="industry"
-                class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-orange transition-colors appearance-none">
-                <option value="">Select your industry</option>
-                <option>Manufacturing</option>
-                <option>Trades &amp; Construction</option>
-                <option>Professional Services</option>
-                <option>Healthcare</option>
-                <option>Logistics &amp; Distribution</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-300 mb-1.5">What's your biggest operational challenge?</label>
-              <textarea name="challenge" rows="3" placeholder="E.g. our quoting process takes 3 days and loses us deals..."
-                class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange transition-colors resize-none"></textarea>
-            </div>
-            <button type="submit" class="btn-primary w-full text-white font-semibold py-4 rounded-xl text-lg">
-              Book My Free Consultation &rarr;
-            </button>
-            <p class="text-xs text-brand-muted text-center">No commitment. We respond within one business day. <a href="mailto:info@tricordit.ca" class="text-slate-400 hover:text-white transition-colors underline">info@tricordit.ca</a></p>
-          </form>
-          <div id="form-success" class="hidden text-center py-8">
-            <div class="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-            </div>
-            <h4 class="text-xl font-bold text-white mb-2">You're on the list!</h4>
-            <p class="text-slate-400">We'll be in touch within one business day to schedule your discovery call.</p>
+I noticed [Company] recently [signal]..."></textarea>
+          </div>
+          <div class="fld">
+            <label>Plain-Text Preview</label>
+            <div id="em-preview" style="background:#f9fafb;border:1px solid var(--border);border-radius:6px;padding:12px;font-size:12px;line-height:1.6;min-height:80px;color:var(--muted)">Preview will appear here after generating…</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-sm" style="background:#f3f4f6" onclick="generateEmailBody()">⚡ AI Write Body</button>
+            <button class="btn btn-sm" style="background:#f3f4f6" onclick="generateSubject()">⚡ AI Subject Lines</button>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer class="py-10 px-4 sm:px-6 max-w-6xl mx-auto">
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2.5">
-        <div class="w-7 h-7 rounded-lg btn-primary flex items-center justify-center">
-          <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
-            <path d="M3 9 L9 3 L15 9 L9 15 Z" stroke="white" stroke-width="1.5" fill="none"/>
-            <circle cx="9" cy="9" r="2" fill="white"/>
-            <path d="M9 3 L9 6 M9 12 L9 15 M3 9 L6 9 M12 9 L15 9" stroke="white" stroke-width="1.2"/>
-          </svg>
+<!-- ═══════════════════════════════════════════════════════════
+     TAB: LINKEDIN
+════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-linkedin">
+  <div class="panel-body li-grid">
+
+    <!-- Left: Prospect queue -->
+    <div class="card" style="min-height:0">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">Prospect Queue</div>
+          <div class="card-sub" id="li-count">From pipeline dashboard</div>
         </div>
-        <span class="font-bold text-white">Tricord <span class="gradient-text">AI</span></span>
-        <span class="text-brand-muted text-sm">&mdash; a division of <a href="https://tricordit.ca" class="hover:text-white transition-colors">Tricord IT</a></span>
+        <button class="btn btn-sm" style="background:#f3f4f6" onclick="loadLiProspects()">↺</button>
       </div>
-      <p class="text-sm text-brand-muted">&copy; 2026 Tricord IT Inc. Niagara, Ontario. <a href="mailto:info@tricordit.ca" class="hover:text-white transition-colors">info@tricordit.ca</a></p>
+      <div class="search-row">
+        <input class="search-input" id="li-search" placeholder="Filter prospects…" oninput="filterLiProspects(this.value)">
+      </div>
+      <div style="overflow-y:auto;flex:1" id="li-list">
+        <div class="empty">Loading prospects…</div>
+      </div>
     </div>
-  </footer>
 
-  <script>
-    // ROI Calculator
-    function calcROI() {
-      const employees = parseFloat(document.getElementById('roi-employees').value) || 0;
-      const salary = parseFloat(document.getElementById('roi-salary').value) || 0;
-      const hoursPerWeek = parseFloat(document.getElementById('roi-hours').value) || 0;
-      const uplift = parseFloat(document.getElementById('roi-uplift').value) || 0;
+    <!-- Right: Message builder -->
+    <div class="card" style="min-height:0">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title" id="li-prospect-name">Select a Prospect</div>
+          <div class="card-sub" id="li-prospect-co">LinkedIn message builder · AI-personalized</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm" style="background:#f3f4f6" onclick="generateLiMessage()" id="li-gen-btn">⚡ Generate</button>
+          <button class="btn btn-orange btn-sm" onclick="copyLiMessage()" id="li-copy-btn">📋 Copy</button>
+        </div>
+      </div>
+      <div class="template-tabs">
+        <button class="tmpl-btn active" onclick="setLiTemplate('connection',this)">Connection Request</button>
+        <button class="tmpl-btn" onclick="setLiTemplate('followup1',this)">Follow-up 1</button>
+        <button class="tmpl-btn" onclick="setLiTemplate('followup2',this)">Follow-up 2</button>
+        <button class="tmpl-btn" onclick="setLiTemplate('close',this)">Close</button>
+      </div>
+      <div class="msg-display" id="li-msg-display">
+        <span style="color:var(--muted);font-style:italic">Select a prospect and click Generate, or write your own message below.</span>
+      </div>
+      <div class="char-count" id="li-chars">0 / 300 chars</div>
+      <div class="chat-input-row" style="padding:10px;border-top:1px solid var(--border)">
+        <textarea class="chat-input" id="li-custom-input" placeholder="Edit or write a custom message…" oninput="updateLiChars(this)"></textarea>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <button class="btn btn-orange btn-sm" onclick="saveAndMarkSent()">✓ Mark Sent</button>
+          <button class="btn btn-sm" style="background:#f3f4f6" onclick="openLinkedIn()" id="li-open-btn">Open Profile</button>
+        </div>
+      </div>
+      <!-- Batch export -->
+      <div style="padding:10px 14px;border-top:1px solid var(--border);background:#f9fafb;display:flex;gap:8px;align-items:center;flex-shrink:0">
+        <span style="font-size:11px;color:var(--muted)">Batch:</span>
+        <button class="btn btn-sm" style="background:#f3f4f6" onclick="exportAllMessages()">⬇ Export All Messages (.csv)</button>
+        <button class="btn btn-sm btn-orange" onclick="generateAllMessages()">⚡ Generate All Connection Requests</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-      const hourlyRate = salary / 2080;
-      const annualHoursSaved = hoursPerWeek * 52 * employees;
-      const annualValueHours = annualHoursSaved * hourlyRate;
-      const annualValueUplift = salary * employees * (uplift / 100);
-      const annualValue = Math.max(annualValueHours, annualValueUplift);
-      const monthlyValue = annualValue / 12;
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal">
+    <h2>API Key Configuration</h2>
+    <p>Keys are stored in session only. Set them as environment variables on your server for persistence.</p>
+    <div class="fld">
+      <label>HubSpot Private App Token</label>
+      <input id="set-hubspot" type="password" placeholder="pat-na1-…">
+    </div>
+    <div class="fld">
+      <label>Hunter.io API Key</label>
+      <input id="set-hunter" type="password" placeholder="xxxxxxxxxxxxxxxx">
+    </div>
+    <div class="fld">
+      <label>Anthropic API Key</label>
+      <input id="set-anthropic" type="password" placeholder="sk-ant-…">
+    </div>
+    <div class="modal-footer">
+      <button class="btn" style="background:#f3f4f6" onclick="closeSettings()">Cancel</button>
+      <button class="btn btn-orange" onclick="saveSettings()">Save Keys</button>
+    </div>
+  </div>
+</div>
 
-      // Payback: assume $35K mid-point build cost
-      const buildCost = 35000;
-      const payback = monthlyValue > 0 ? Math.ceil(buildCost / monthlyValue) : 0;
+<div class="toast" id="toast"></div>
 
-      const fmt = (n) => n >= 1000000
-        ? '$' + (n / 1000000).toFixed(1) + 'M'
-        : n >= 1000
-          ? '$' + Math.round(n / 1000) + 'K'
-          : '$' + Math.round(n);
+<script>
+// ── State ─────────────────────────────────────────────────────────────────────
+let hsContacts = [];
+let hunterEmails = [];
+let selectedContact = null;
+let chatHistory = [];
+let liProspects = [];
+let liSelectedProspect = null;
+let liTemplate = 'connection';
+let mktAction = 'cold-email';
+let generatedContent = '';
+let sessionKeys = {};
 
-      document.getElementById('roi-annual').textContent = fmt(annualValue);
-      document.getElementById('roi-monthly').textContent = fmt(monthlyValue);
-      document.getElementById('roi-payback').textContent = payback > 0 ? payback + ' mo' : '—';
+// ── Init ──────────────────────────────────────────────────────────────────────
+async function init() {
+  sessionKeys = JSON.parse(sessionStorage.getItem('tricord_keys') || '{}');
+  await checkStatus();
+  loadHubspot();
+  loadLiProspects();
+  checkCowork();
+}
+
+async function checkStatus() {
+  try {
+    const r = await fetch('/api/status');
+    const s = await r.json();
+    setBadge('hubspot',  s.hubspot  || !!sessionKeys.hubspot);
+    setBadge('hunter',   s.hunter   || !!sessionKeys.hunter);
+    setBadge('ai',       s.anthropic || !!sessionKeys.anthropic);
+  } catch { /* offline */ }
+}
+
+function setBadge(name, ok) {
+  const el = document.getElementById(`badge-${name}`);
+  if (el) el.className = `api-badge ${ok ? 'ok' : 'warn'}`;
+}
+
+function checkCowork() {
+  const ok = typeof window.cowork !== 'undefined';
+  setBadge('cowork', ok);
+  document.getElementById('cowork-label').textContent = ok ? 'Cowork connected' : 'Cowork not detected';
+  if (!ok) document.getElementById('cowork-dot').style.background = '#f59e0b';
+}
+
+// ── Tab switching ─────────────────────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Utility ───────────────────────────────────────────────────────────────────
+function toast(msg, dur=2500) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), dur);
+}
+
+function debounce(fn, delay) {
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), delay); };
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard!')).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta); toast('Copied!');
+  });
+}
+
+async function apiFetch(url, opts = {}) {
+  const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
+  // Inject session keys as query param fallback for proxied routes
+  const r = await fetch(url, { ...opts, headers });
+  return r;
+}
+
+// ── Settings ──────────────────────────────────────────────────────────────────
+function openSettings() { document.getElementById('settings-modal').classList.add('open'); }
+function closeSettings() { document.getElementById('settings-modal').classList.remove('open'); }
+function saveSettings() {
+  sessionKeys = {
+    hubspot: document.getElementById('set-hubspot').value.trim(),
+    hunter: document.getElementById('set-hunter').value.trim(),
+    anthropic: document.getElementById('set-anthropic').value.trim(),
+  };
+  sessionStorage.setItem('tricord_keys', JSON.stringify(sessionKeys));
+  closeSettings();
+  checkStatus();
+  toast('Keys saved for this session');
+}
+
+// ── HubSpot ───────────────────────────────────────────────────────────────────
+async function loadHubspot() {
+  document.getElementById('hs-list').innerHTML = '<div class="empty"><span class="spinner"></span></div>';
+  try {
+    const r = await fetch('/api/hubspot/contacts');
+    if (!r.ok) { showHsError(await r.json()); return; }
+    const data = await r.json();
+    hsContacts = (data.results || []).map(c => ({
+      id: c.id,
+      name: `${c.properties.firstname||''} ${c.properties.lastname||''}`.trim() || '(no name)',
+      email: c.properties.email || '',
+      company: c.properties.company || '',
+      title: c.properties.jobtitle || '',
+      stage: c.properties.lifecyclestage || 'lead',
+    }));
+    renderHsContacts(hsContacts);
+    document.getElementById('hs-sub').textContent = `${hsContacts.length} contacts`;
+  } catch (e) { showHsError({ error: e.message }); }
+}
+
+function showHsError(err) {
+  document.getElementById('hs-list').innerHTML = `<div class="empty" style="color:#ef4444">${err.error || 'HubSpot unavailable'}<br><small>Check API key in ⚙ Keys or set HUBSPOT_API_KEY env var</small></div>`;
+  document.getElementById('hs-sub').textContent = 'Not connected';
+}
+
+function renderHsContacts(list) {
+  if (!list.length) { document.getElementById('hs-list').innerHTML = '<div class="empty">No contacts found</div>'; return; }
+  document.getElementById('hs-list').innerHTML = list.map(c => `
+    <div class="contact-card ${selectedContact?.id===c.id?'selected':''}" onclick="selectContact(${JSON.stringify(c).replace(/"/g,'&quot;')})">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div class="cc-name">${c.name}</div>
+        <span class="stage-pill stage-${c.stage.replace(' ','')}">${c.stage}</span>
+      </div>
+      <div class="cc-company">${c.company}${c.title ? ' · '+c.title : ''}</div>
+      ${c.email ? `<div class="cc-email">${c.email}</div>` : ''}
+    </div>`).join('');
+}
+
+async function searchHubspot(q) {
+  if (!q) { renderHsContacts(hsContacts); return; }
+  const lower = q.toLowerCase();
+  const local = hsContacts.filter(c =>
+    c.name.toLowerCase().includes(lower) ||
+    c.company.toLowerCase().includes(lower) ||
+    c.email.toLowerCase().includes(lower)
+  );
+  if (local.length) { renderHsContacts(local); return; }
+  try {
+    const r = await fetch('/api/hubspot/search', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ query: q }) });
+    const data = await r.json();
+    const res = (data.results||[]).map(c => ({
+      id: c.id,
+      name: `${c.properties.firstname||''} ${c.properties.lastname||''}`.trim() || '(no name)',
+      email: c.properties.email || '',
+      company: c.properties.company || '',
+      title: c.properties.jobtitle || '',
+      stage: c.properties.lifecyclestage || 'lead',
+    }));
+    renderHsContacts(res);
+  } catch { renderHsContacts(local); }
+}
+
+function selectContact(c) {
+  selectedContact = c;
+  renderHsContacts(hsContacts.filter(x => !document.getElementById('hs-search').value || x.name.toLowerCase().includes(document.getElementById('hs-search').value.toLowerCase())));
+  showSelectedContact(c);
+  document.getElementById('hunter-domain').value = c.email ? c.email.split('@')[1] : '';
+  if (c.email) document.getElementById('hunter-domain').value = c.email.split('@')[1];
+  document.getElementById('push-hs-btn').disabled = false;
+  // pre-fill marketing form
+  document.getElementById('mkt-company').value = c.company || '';
+  document.getElementById('mkt-contact').value = c.name || '';
+  // pre-fill LinkedIn
+  document.getElementById('li-prospect-name').textContent = c.name;
+  document.getElementById('li-prospect-co').textContent = c.company;
+}
+
+function showSelectedContact(c) {
+  document.getElementById('selected-contact-panel').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:20px;font-weight:800;color:var(--navy)">${c.name}</div>
+      ${c.title ? `<div style="font-size:12px;color:var(--muted)">${c.title}</div>` : ''}
+      ${c.company ? `<div style="font-size:13px;font-weight:600">${c.company}</div>` : ''}
+      ${c.email ? `<div style="font-size:12px;color:var(--blue)">${c.email}</div>` : '<div style="font-size:12px;color:var(--amber)">No email — use Hunter.io to find</div>'}
+      <span class="stage-pill stage-${c.stage.replace(' ','')}" style="align-self:flex-start">${c.stage}</span>
+      <hr style="border:none;border-top:1px solid var(--border)">
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-orange btn-sm" onclick="chatAboutContact()">Draft outreach</button>
+        <button class="btn btn-sm" style="background:#f3f4f6" onclick="generateLiMessageForContact()">LinkedIn msg</button>
+      </div>
+    </div>`;
+}
+
+function chatAboutContact() {
+  if (!selectedContact) return;
+  const p = selectedContact;
+  document.getElementById('chat-input').value = `Draft a Touch 1 cold email for ${p.name}${p.title?' ('+p.title+')':''} at ${p.company}. ${p.email?'Email: '+p.email+'.':''} Keep it under 150 words, lead with the AI governance angle.`;
+  switchTab('sales', document.querySelector('.tab-btn'));
+  document.getElementById('chat-input').focus();
+}
+
+function generateLiMessageForContact() {
+  switchTab('linkedin', document.querySelectorAll('.tab-btn')[3]);
+  setTimeout(() => {
+    if (selectedContact) {
+      liSelectedProspect = { ...selectedContact, sector: guessSector(selectedContact.company) };
+      document.getElementById('li-prospect-name').textContent = liSelectedProspect.name;
+      document.getElementById('li-prospect-co').textContent = liSelectedProspect.company;
+      generateLiMessage();
     }
+  }, 100);
+}
 
-    ['roi-employees','roi-salary','roi-hours','roi-uplift'].forEach(id => {
-      document.getElementById(id).addEventListener('input', calcROI);
+function guessSector(company) {
+  const c = (company||'').toLowerCase();
+  if (c.includes('law') || c.includes('legal') || c.includes('llp') || c.includes('solicitor')) return 'Legal';
+  if (c.includes('mfg') || c.includes('manufactur') || c.includes('industrial')) return 'Manufacturing';
+  if (c.includes('cpa') || c.includes('accounting') || c.includes('chartered')) return 'CPA';
+  if (c.includes('pharma') || c.includes('biotech') || c.includes('life science')) return 'Pharma';
+  if (c.includes('engineer') || c.includes('architect')) return 'Engineering';
+  if (c.includes('insurance') || c.includes('insur')) return 'Insurance';
+  if (c.includes('health') || c.includes('medical') || c.includes('clinic')) return 'Healthcare';
+  return 'Manufacturing';
+}
+
+async function pushToHubspot() {
+  if (!selectedContact) return;
+  const btn = document.getElementById('push-hs-btn');
+  btn.disabled = true; btn.textContent = 'Pushing…';
+  try {
+    const r = await fetch('/api/hubspot/contact', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        firstname: selectedContact.name.split(' ')[0],
+        lastname: selectedContact.name.split(' ').slice(1).join(' '),
+        email: selectedContact.email,
+        company: selectedContact.company,
+        jobtitle: selectedContact.title,
+      })
     });
-    calcROI();
+    const d = await r.json();
+    if (d.id) { toast('Contact pushed to HubSpot!'); loadHubspot(); }
+    else toast('HubSpot push failed: ' + (d.message||'unknown error'), 4000);
+  } catch (e) { toast('Error: ' + e.message, 4000); }
+  btn.disabled = false; btn.textContent = '+ Push to HubSpot';
+}
 
-    // Contact form
-    document.getElementById('contact-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const btn = this.querySelector('button[type="submit"]');
-      btn.textContent = 'Sending…';
-      btn.disabled = true;
+// ── Hunter.io ─────────────────────────────────────────────────────────────────
+async function runHunter() {
+  const domain = document.getElementById('hunter-domain').value.trim().replace(/^https?:\/\//, '').replace(/\/.*/, '');
+  if (!domain) { toast('Enter a domain first'); return; }
+  const btn = document.getElementById('hunter-btn');
+  btn.textContent = '…'; btn.disabled = true;
+  document.getElementById('hunter-results').innerHTML = '<div class="empty"><span class="spinner"></span> Searching Hunter.io…</div>';
+  try {
+    const r = await fetch('/api/hunter/search', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ domain }) });
+    const data = await r.json();
+    if (data.errors) { document.getElementById('hunter-results').innerHTML = `<div class="empty" style="color:#ef4444">${data.errors[0]?.details || 'Hunter error'}<br><small>Check HUNTER_API_KEY</small></div>`; return; }
+    const emails = data.data?.emails || [];
+    hunterEmails = emails;
+    if (!emails.length) { document.getElementById('hunter-results').innerHTML = '<div class="empty">No emails found for this domain</div>'; return; }
+    document.getElementById('hunter-results').innerHTML = emails.slice(0,8).map(e => `
+      <div class="hunter-result">
+        <div>
+          <div class="hunter-email">${e.value}</div>
+          <div class="hunter-meta">${e.first_name||''} ${e.last_name||''} · ${e.position||'—'}</div>
+          <div class="conf-bar"><div class="conf-fill" style="width:${e.confidence||0}%;background:${e.confidence>70?'var(--green)':e.confidence>40?'var(--amber)':'var(--red)'}"></div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
+          <span style="font-size:11px;font-weight:700;color:${e.confidence>70?'var(--green)':e.confidence>40?'var(--amber)':'var(--red)'}">${e.confidence||0}%</span>
+          <button class="btn btn-sm btn-orange" onclick="useHunterEmail(${JSON.stringify(e).replace(/"/g,'&quot;')})">Use</button>
+        </div>
+      </div>`).join('');
+  } catch (e) { document.getElementById('hunter-results').innerHTML = `<div class="empty" style="color:#ef4444">${e.message}</div>`; }
+  btn.textContent = 'Search'; btn.disabled = false;
+}
 
-      const data = Object.fromEntries(new FormData(this));
+function useHunterEmail(e) {
+  const name = `${e.first_name||''} ${e.last_name||''}`.trim();
+  const co = document.getElementById('hunter-domain').value;
+  if (!selectedContact) selectedContact = { id: 'hunter-' + Date.now(), name, email: e.value, company: co, title: e.position||'', stage:'prospect' };
+  else { selectedContact.email = e.value; if (name) selectedContact.name = name; }
+  showSelectedContact(selectedContact);
+  document.getElementById('push-hs-btn').disabled = false;
+  toast(`Selected: ${e.value}`);
+}
 
-      try {
-        const res = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        if (res.ok) {
-          document.getElementById('contact-form').classList.add('hidden');
-          document.getElementById('form-success').classList.remove('hidden');
-        } else {
-          throw new Error('Server error');
-        }
-      } catch {
-        // Fallback: open mailto
-        window.location.href = `mailto:info@tricordit.ca?subject=Consultation Request - ${encodeURIComponent(data.company || data.firstName)}&body=${encodeURIComponent('Name: ' + data.firstName + ' ' + data.lastName + '\nEmail: ' + data.email + '\nCompany: ' + data.company + '\nIndustry: ' + data.industry + '\nChallenge: ' + data.challenge)}`;
-        btn.textContent = 'Book My Free Consultation →';
-        btn.disabled = false;
-      }
+async function verifyEmail() {
+  const email = selectedContact?.email || prompt('Enter email to verify:');
+  if (!email) return;
+  const btn = document.getElementById('verify-btn');
+  btn.textContent = '…'; btn.disabled = true;
+  try {
+    const r = await fetch('/api/hunter/verify', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email }) });
+    const d = await r.json();
+    const status = d.data?.status || 'unknown';
+    const score = d.data?.score || 0;
+    toast(`${email}: ${status} (score: ${score})`, 4000);
+  } catch (e) { toast('Verify error: ' + e.message, 4000); }
+  btn.textContent = 'Verify'; btn.disabled = false;
+}
+
+// ── AI Chat ───────────────────────────────────────────────────────────────────
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  appendMsg('user', text);
+  chatHistory.push({ role: 'user', content: text });
+  const btn = document.getElementById('chat-send');
+  btn.disabled = true; btn.textContent = '…';
+
+  try {
+    const r = await fetch('/api/ai/chat', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ messages: chatHistory })
     });
-  </script>
+    const d = await r.json();
+    if (d.error) { appendMsg('system', 'Error: ' + d.error); }
+    else {
+      appendMsg('ai', d.content);
+      chatHistory.push({ role: 'assistant', content: d.content });
+      generatedContent = d.content;
+    }
+  } catch (e) { appendMsg('system', 'Network error: ' + e.message); }
+  btn.disabled = false; btn.textContent = 'Send';
+}
+
+function appendMsg(role, text) {
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  div.textContent = text;
+  const msgs = document.getElementById('chat-msgs');
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function chatKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
+function clearChat() { chatHistory = []; document.getElementById('chat-msgs').innerHTML = '<div class="msg system">Chat cleared. Ask me to draft outreach for any prospect.</div>'; }
+
+// ── Cowork actions ────────────────────────────────────────────────────────────
+function setCoworkStatus(msg, loading=false) {
+  document.getElementById('cowork-label').textContent = msg;
+  const dot = document.getElementById('cowork-dot');
+  dot.style.animation = loading ? 'pulse 1s infinite' : 'none';
+}
+
+async function coworkOutreach() {
+  if (!window.cowork) { toast('Cowork not detected — open in Claude Code web', 4000); return; }
+  const p = selectedContact;
+  const prompt = p
+    ? `Run an outreach campaign for ${p.name} at ${p.company} (${p.email||'no email yet'}). Sector: ${guessSector(p.company)}. Lead with AI governance angle.`
+    : 'Run the tricord-outreach skill for the next 5 prospects in the Ontario pipeline.';
+  setCoworkStatus('Running outreach…', true);
+  try {
+    await window.cowork.callMcpTool('mcp__2cf22e1d-e795-42a7-88ea-03332a46b97e__campaign_planner', { prompt });
+    setCoworkStatus('Outreach complete ✓');
+    toast('Cowork outreach sequence complete!');
+  } catch (e) { setCoworkStatus('Error: ' + e.message); toast('Cowork error: ' + e.message, 4000); }
+}
+
+async function coworkMailchimp() {
+  if (!window.cowork) { toast('Cowork not detected', 3000); return; }
+  setCoworkStatus('Queueing Mailchimp…', true);
+  try {
+    const subject = document.getElementById('em-subject').value || 'TRICORD AI Governance — Ontario Outreach';
+    const body = document.getElementById('em-body').value || (chatHistory.length ? chatHistory[chatHistory.length-1].content : '');
+    await window.cowork.callMcpTool('mcp__2cf22e1d-e795-42a7-88ea-03332a46b97e__save_to_mailchimp', {
+      subject, body, from_name: 'Dwight G. — TRICORD I.T Solutions', reply_to: 'info@tricordit.ca'
+    });
+    setCoworkStatus('Saved to Mailchimp ✓');
+    toast('Draft saved to Mailchimp!');
+  } catch (e) { setCoworkStatus('Mailchimp error'); toast('Error: ' + e.message, 4000); }
+}
+
+async function coworkEnrich() {
+  if (!window.cowork) { toast('Cowork not detected', 3000); return; }
+  const domain = selectedContact?.email?.split('@')[1] || document.getElementById('hunter-domain').value;
+  if (!domain) { toast('Select a contact or enter a domain first'); return; }
+  setCoworkStatus('Enriching…', true);
+  try {
+    const r = await window.cowork.callMcpTool('mcp__2cf22e1d-e795-42a7-88ea-03332a46b97e__get_enrichment', { domain });
+    setCoworkStatus('Enrichment done ✓');
+    if (r) appendMsg('system', 'Enrichment: ' + JSON.stringify(r).slice(0,200));
+  } catch (e) { setCoworkStatus('Enrichment error'); }
+}
+
+// ── Marketing ─────────────────────────────────────────────────────────────────
+const MKT_TITLES = {
+  'cold-email': 'Cold Email — Touch 1',
+  'follow-email': 'Follow-up Email — Touch 3',
+  'linkedin-post': 'LinkedIn Post',
+  'landing-page': 'Landing Page Copy',
+  'case-study': 'Case Study Intro',
+  'social': 'Social Media Set (3 posts)',
+};
+
+const MKT_PROMPTS = {
+  'cold-email': (c,n,s,sig) => `Write a Touch 1 cold email for TRICORD to send to ${n||'the Decision Maker'} at ${c||'a company'} (sector: ${s}). ${sig?'Signal: '+sig+'.':''} Subject line ≤50 chars, body ≤150 words. Lead with the AI governance angle specific to ${s}. End with a soft CTA to book a 20-min call. Dwight's voice: direct, peer-level, no jargon.`,
+  'follow-email': (c,n,s,sig) => `Write a Touch 3 follow-up email for TRICORD to ${n||'the contact'} at ${c||'a company'} (${s}). 7-10 days after Touch 1. Assume no reply. Add a new piece of value — reference a recent regulatory or industry development relevant to ${s} and AI governance. Keep under 100 words.`,
+  'linkedin-post': (_c,_n,s,sig) => `Write a compelling LinkedIn post for Dwight G. (TRICORD I.T Solutions CEO) about AI governance for the ${s} sector. ${sig?'Context: '+sig+'.':''} 200-300 words, first-person, thought leadership tone. End with a question to drive comments. No hashtag spam — max 3 relevant tags at the end.`,
+  'landing-page': (_c,_n,s,_sig) => `Write landing page copy for TRICORD's AI Strategy & Governance service targeting Ontario ${s} businesses. Include: headline (max 12 words), subheadline (1 sentence), 3 bullet pain points, 3 bullet outcomes, and a CTA button label. Tone: confident, specific to ${s} pain points.`,
+  'case-study': (c,n,s,sig) => `Write a brief case study intro (2 paragraphs) for a TRICORD engagement with a ${s} client${c?' ('+c+')':''}. ${sig?'Background: '+sig+'.':''} Format: Problem / Solution hint / Result teaser. Don't reveal the full solution yet — create curiosity. Keep under 150 words.`,
+  'social': (_c,_n,s,_sig) => `Write 3 short social media posts for TRICORD about AI governance for ${s} businesses. Post 1 for LinkedIn (150 words, thought leadership). Post 2 for X/Twitter (280 chars, punchy). Post 3 for LinkedIn (100 words, question-driven). Label each clearly.`,
+};
+
+function setMktAction(action, btn) {
+  mktAction = action;
+  document.querySelectorAll('.action-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('mkt-output-title').textContent = MKT_TITLES[action];
+  document.getElementById('mkt-output-sub').textContent = 'Configure inputs, then Generate';
+}
+
+async function generateContent() {
+  const company = document.getElementById('mkt-company').value.trim();
+  const contact = document.getElementById('mkt-contact').value.trim();
+  const sector = document.getElementById('mkt-sector').value;
+  const signal = document.getElementById('mkt-signal').value.trim();
+  const prompt = MKT_PROMPTS[mktAction](company, contact, sector, signal);
+
+  const btn = document.getElementById('mkt-gen-btn');
+  btn.disabled = true; btn.textContent = '…';
+  document.getElementById('mkt-output').innerHTML = '<span class="spinner"></span> Generating…';
+
+  try {
+    const r = await fetch('/api/ai/chat', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ messages: [{ role:'user', content: prompt }] })
+    });
+    const d = await r.json();
+    if (d.error) { document.getElementById('mkt-output').textContent = 'Error: ' + d.error; return; }
+    generatedContent = d.content;
+    document.getElementById('mkt-output').textContent = d.content;
+  } catch (e) { document.getElementById('mkt-output').textContent = 'Error: ' + e.message; }
+  btn.disabled = false; btn.textContent = '⚡ Generate';
+}
+
+function copyOutput() { copyText(generatedContent || document.getElementById('mkt-output').textContent); }
+
+function downloadOutput() {
+  const text = generatedContent || document.getElementById('mkt-output').textContent;
+  const a = document.createElement('a');
+  a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(text);
+  a.download = `tricord-${mktAction}-${Date.now()}.txt`;
+  a.click();
+}
+
+function sendToEmail() {
+  document.getElementById('em-body').value = generatedContent || document.getElementById('mkt-output').textContent;
+  switchTab('email', document.querySelectorAll('.tab-btn')[2]);
+  toast('Content sent to Email tab');
+}
+
+function sendToLinkedIn() {
+  document.getElementById('li-custom-input').value = generatedContent || document.getElementById('mkt-output').textContent;
+  updateLiChars({ value: document.getElementById('li-custom-input').value });
+  switchTab('linkedin', document.querySelectorAll('.tab-btn')[3]);
+  toast('Content sent to LinkedIn tab');
+}
+
+// ── Email / Mailchimp ─────────────────────────────────────────────────────────
+async function loadCampaigns() {
+  if (!window.cowork) { toast('Cowork not detected — campaigns require Cowork', 4000); return; }
+  const btn = document.getElementById('load-mc-btn');
+  btn.disabled = true; btn.textContent = '…';
+  document.getElementById('mc-sub').textContent = 'Loading via Cowork…';
+  document.getElementById('mc-list').innerHTML = '<div class="empty"><span class="spinner"></span></div>';
+  try {
+    const result = await window.cowork.callMcpTool(
+      'mcp__2cf22e1d-e795-42a7-88ea-03332a46b97e__get_analytics_widget_data',
+      { query: 'recent campaigns sent opens clicks last 30 days' }
+    );
+    const campaigns = result?.campaigns || result?.data || [];
+    if (!campaigns.length) {
+      document.getElementById('mc-list').innerHTML = '<div class="empty">No campaigns yet. Build one and save to Mailchimp.</div>';
+      document.getElementById('mc-sub').textContent = 'No campaigns';
+      return;
+    }
+    document.getElementById('mc-sub').textContent = `${campaigns.length} campaigns`;
+    document.getElementById('mc-list').innerHTML = campaigns.slice(0,10).map(c => `
+      <div class="campaign-row" onclick="loadCampaignIntoBuilder(${JSON.stringify(c).replace(/"/g,'&quot;')})">
+        <div class="cr-name">${c.name||c.subject||'Campaign'}</div>
+        <div class="cr-meta">${c.send_time ? new Date(c.send_time).toLocaleDateString('en-CA') : 'Draft'} · ${c.status||''}</div>
+        <div class="cr-stats">
+          <div class="cr-stat"><div class="cr-stat-val">${c.opens_total||0}</div><div class="cr-stat-label">Opens</div></div>
+          <div class="cr-stat"><div class="cr-stat-val">${c.clicks_total||0}</div><div class="cr-stat-label">Clicks</div></div>
+          <div class="cr-stat"><div class="cr-stat-val">${c.open_rate ? Math.round(c.open_rate*100)+'%':'—'}</div><div class="cr-stat-label">Rate</div></div>
+        </div>
+      </div>`).join('');
+  } catch (e) { document.getElementById('mc-list').innerHTML = `<div class="empty" style="color:#ef4444">Cowork error: ${e.message}</div>`; }
+  btn.disabled = false; btn.textContent = 'Load';
+}
+
+function loadCampaignIntoBuilder(c) {
+  document.getElementById('em-name').value = c.name || '';
+  document.getElementById('em-subject').value = c.subject_line || c.subject || '';
+  document.getElementById('em-preview').textContent = c.preview_text || 'No preview available';
+}
+
+async function generateEmailBody() {
+  const sector = 'Legal';
+  const prompt = `Write a cold outreach email body for TRICORD I.T Solutions targeting ${sector} firms in Ontario. AI governance angle. Under 150 words. First-person from Dwight G.`;
+  const r = await fetch('/api/ai/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ messages:[{role:'user',content:prompt}] }) });
+  const d = await r.json();
+  if (d.content) document.getElementById('em-body').value = d.content;
+}
+
+async function generateSubject() {
+  const body = document.getElementById('em-body').value;
+  const prompt = `Generate 5 email subject lines (each under 50 chars) for this email body. List one per line:\n\n${body||'TRICORD AI governance outreach to Ontario law firms'}`;
+  const r = await fetch('/api/ai/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ messages:[{role:'user',content:prompt}] }) });
+  const d = await r.json();
+  if (d.content) { document.getElementById('em-subject').value = ''; toast(d.content, 6000); }
+}
+
+function previewEmail() {
+  const body = document.getElementById('em-body').value;
+  document.getElementById('em-preview').textContent = body || '(no body yet)';
+}
+
+async function saveToMailchimp() {
+  if (!window.cowork) { toast('Cowork required for Mailchimp save', 4000); return; }
+  const subject = document.getElementById('em-subject').value.trim();
+  const body = document.getElementById('em-body').value.trim();
+  if (!subject || !body) { toast('Subject and body are required'); return; }
+  const btn = document.getElementById('save-mc-btn');
+  btn.disabled = true; btn.textContent = 'Saving…';
+  try {
+    await window.cowork.callMcpTool('mcp__2cf22e1d-e795-42a7-88ea-03332a46b97e__save_to_mailchimp', {
+      subject,
+      body,
+      campaign_name: document.getElementById('em-name').value || subject,
+      from_name: document.getElementById('em-from-name').value,
+      reply_to: document.getElementById('em-reply-to').value,
+    });
+    toast('Campaign draft saved to Mailchimp!');
+  } catch (e) { toast('Mailchimp error: ' + e.message, 4000); }
+  btn.disabled = false; btn.textContent = '💾 Save to Mailchimp';
+}
+
+// ── LinkedIn ──────────────────────────────────────────────────────────────────
+const LI_TEMPLATES = {
+  connection: (p) => `Hi ${(p.name||'').split(' ')[0]} — I noticed ${p.company||'your company'} and thought it would be worth connecting. I help Ontario ${p.sector||'businesses'} build proper AI governance frameworks — something I'm seeing more urgency around right now. Would love to connect.`,
+  followup1: (p) => `Hi ${(p.name||'').split(' ')[0]}, thanks for connecting. I work with ${p.sector||'Ontario'} businesses on AI strategy and governance — a lot of firms are realising they have real exposure they haven't addressed yet. Would a quick 20-minute conversation be worthwhile? Happy to work around your schedule.`,
+  followup2: (p) => `Hi ${(p.name||'').split(' ')[0]}, just circling back — I recently worked with another ${p.sector||'Ontario'} firm on exactly the kind of AI governance gap I suspect exists at ${p.company||'your firm'}. Happy to share what we found if it's useful. No pitch — just a genuine comparison.`,
+  close: (p) => `Hi ${(p.name||'').split(' ')[0]}, I've reached out a couple of times about AI governance for ${p.sector||'Ontario'} businesses. I'll leave it here — if it moves up the priority list, feel free to reach out. I'm at info@tricordit.ca or you can book directly at tricordit.ca. Either way, best of luck.`,
+};
+
+const LI_CHAR_LIMITS = { connection: 300, followup1: 500, followup2: 500, close: 500 };
+
+function loadLiProspects() {
+  const stored = JSON.parse(localStorage.getItem('tricord_prospects') || '[]');
+  liProspects = stored.length ? stored : [];
+  if (!liProspects.length) {
+    // fallback: use HubSpot contacts
+    liProspects = hsContacts.map(c => ({ ...c, sector: guessSector(c.company), priority: false, t1:'pending', t2:'pending' }));
+  }
+  renderLiProspects(liProspects);
+  document.getElementById('li-count').textContent = `${liProspects.length} prospects`;
+}
+
+function renderLiProspects(list) {
+  if (!list.length) { document.getElementById('li-list').innerHTML = '<div class="empty">No prospects yet. Add from the Pipeline dashboard or via HubSpot.</div>'; return; }
+  document.getElementById('li-list').innerHTML = list.map(p => {
+    const initials = (p.company||p.name||'?').slice(0,2).toUpperCase();
+    const bg = ['#1a1a2e','#3b82f6','#8b5cf6','#10b981','#e85d04'][Math.abs(hashStr(p.company||''))%5];
+    const sent = p.t2 !== 'pending';
+    return `<div class="li-prospect ${liSelectedProspect?.id===p.id?'selected':''}" onclick="selectLiProspect(${JSON.stringify(p).replace(/"/g,'&quot;')})">
+      <div class="li-avatar" style="background:${bg}">${initials}</div>
+      <div style="flex:1;min-width:0">
+        <div class="li-name">${p.contact||p.name||'Unknown'}</div>
+        <div class="li-company">${p.company||''} ${p.sector?'· '+p.sector:''}</div>
+      </div>
+      <div class="li-stage-dot ${sent?'sent':'pending'}" title="${sent?'LinkedIn sent':'Pending'}"></div>
+    </div>`;
+  }).join('');
+}
+
+function hashStr(s) { let h=0; for(let i=0;i<s.length;i++){h=Math.imul(31,h)+s.charCodeAt(i)|0;} return h; }
+
+function filterLiProspects(q) {
+  const lower = q.toLowerCase();
+  renderLiProspects(q ? liProspects.filter(p => (p.contact||p.name||'').toLowerCase().includes(lower) || (p.company||'').toLowerCase().includes(lower)) : liProspects);
+}
+
+function selectLiProspect(p) {
+  liSelectedProspect = p;
+  renderLiProspects(liProspects);
+  document.getElementById('li-prospect-name').textContent = p.contact || p.name || 'Unknown';
+  document.getElementById('li-prospect-co').textContent = `${p.company||''} · ${p.sector||''}`;
+  setLiMessageDisplay(LI_TEMPLATES[liTemplate](p));
+  if (p.linkedin) document.getElementById('li-open-btn').title = p.linkedin;
+}
+
+function setLiTemplate(tpl, btn) {
+  liTemplate = tpl;
+  document.querySelectorAll('.tmpl-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (liSelectedProspect) setLiMessageDisplay(LI_TEMPLATES[tpl](liSelectedProspect));
+  document.getElementById('li-chars').textContent = `0 / ${LI_CHAR_LIMITS[tpl]} chars`;
+}
+
+function setLiMessageDisplay(text) {
+  document.getElementById('li-msg-display').textContent = text;
+  document.getElementById('li-custom-input').value = text;
+  updateLiChars({ value: text });
+}
+
+function updateLiChars(input) {
+  const len = (input.value||'').length;
+  const max = LI_CHAR_LIMITS[liTemplate] || 300;
+  document.getElementById('li-chars').textContent = `${len} / ${max} chars`;
+  document.getElementById('li-chars').style.color = len > max ? 'var(--red)' : 'var(--muted)';
+}
+
+async function generateLiMessage() {
+  if (!liSelectedProspect) { toast('Select a prospect first'); return; }
+  const p = liSelectedProspect;
+  const prompts = {
+    connection: `Write a LinkedIn connection request message for TRICORD to send to ${p.contact||p.name||'the decision maker'} at ${p.company||'a company'} (${p.sector||'Ontario business'}). Max 300 characters. Personal, no pitch, reference something specific about their industry. ${p.signal?'Signal: '+p.signal:''}`,
+    followup1: `Write LinkedIn follow-up message 1 (after connection accepted) from TRICORD to ${p.contact||p.name||'contact'} at ${p.company||'company'} (${p.sector}). Max 500 chars. Value-first opener, soft question about AI governance. ${p.signal?'Signal: '+p.signal:''}`,
+    followup2: `Write LinkedIn follow-up message 2 (5 days after no reply) from TRICORD to ${p.contact||p.name||'contact'} at ${p.company||'company'} (${p.sector}). Max 500 chars. Offer something free — share a relevant insight or framework. ${p.signal?'Signal: '+p.signal:''}`,
+    close: `Write a graceful LinkedIn close message from TRICORD to ${p.contact||p.name||'contact'} at ${p.company||'company'} (${p.sector}). Max 500 chars. Politely stepping back, leaving door open. Mention tricordit.ca.`,
+  };
+  const btn = document.getElementById('li-gen-btn');
+  btn.disabled = true; btn.textContent = '…';
+  try {
+    const r = await fetch('/api/ai/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ messages:[{role:'user',content:prompts[liTemplate]}] }) });
+    const d = await r.json();
+    if (d.content) setLiMessageDisplay(d.content);
+    else toast('AI error: ' + (d.error||'unknown'), 4000);
+  } catch (e) { toast('Error: ' + e.message, 4000); }
+  btn.disabled = false; btn.textContent = '⚡ Generate';
+}
+
+function copyLiMessage() {
+  const text = document.getElementById('li-custom-input').value || document.getElementById('li-msg-display').textContent;
+  copyText(text);
+}
+
+function saveAndMarkSent() {
+  if (!liSelectedProspect) return;
+  const idx = liProspects.findIndex(p => p.id === liSelectedProspect.id);
+  if (idx >= 0) {
+    liProspects[idx].t2 = 'sent';
+    liSelectedProspect.t2 = 'sent';
+    // update localStorage
+    const stored = JSON.parse(localStorage.getItem('tricord_prospects') || '[]');
+    const si = stored.findIndex(p => p.id === liSelectedProspect.id);
+    if (si >= 0) { stored[si].t2 = 'sent'; localStorage.setItem('tricord_prospects', JSON.stringify(stored)); }
+    renderLiProspects(liProspects);
+    toast('Marked as sent!');
+  }
+}
+
+function openLinkedIn() {
+  const url = liSelectedProspect?.linkedin;
+  if (url) window.open(url.startsWith('http') ? url : 'https://'+url, '_blank');
+  else toast('No LinkedIn URL for this prospect');
+}
+
+async function generateAllMessages() {
+  const pending = liProspects.filter(p => !p.t2 || p.t2 === 'pending').slice(0,5);
+  if (!pending.length) { toast('No pending prospects'); return; }
+  toast(`Generating connection requests for ${pending.length} prospects…`, 4000);
+  for (const p of pending) {
+    const prompt = `Write a LinkedIn connection request for TRICORD to ${p.contact||p.name||'contact'} at ${p.company||'company'} (${p.sector||'Ontario business'}). Max 280 chars. No pitch.`;
+    const r = await fetch('/api/ai/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ messages:[{role:'user',content:prompt}] }) });
+    const d = await r.json();
+    if (d.content) { const idx = liProspects.findIndex(x => x.id === p.id); if (idx>=0) liProspects[idx]._liMsg = d.content; }
+  }
+  toast('All messages generated! Select a prospect to view.');
+}
+
+function exportAllMessages() {
+  const rows = liProspects.map(p => [
+    `"${(p.contact||p.name||'').replace(/"/g,'""')}"`,
+    `"${(p.company||'').replace(/"/g,'""')}"`,
+    `"${(p.sector||'').replace(/"/g,'""')}"`,
+    `"${(p.linkedin||'').replace(/"/g,'""')}"`,
+    `"${(p._liMsg || LI_TEMPLATES.connection(p)).replace(/"/g,'""')}"`,
+    p.t2||'pending',
+  ].join(','));
+  const csv = 'Name,Company,Sector,LinkedIn,Connection Message,Status\n' + rows.join('\n');
+  const a = document.createElement('a'); a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv); a.download = 'tricord-linkedin-messages.csv'; a.click();
+}
+
+// ── Bootstrap ─────────────────────────────────────────────────────────────────
+init();
+</script>
 </body>
 </html>
