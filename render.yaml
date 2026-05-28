@@ -10,3 +10,9 @@ services:
         value: production
       - key: ADMIN_TOKEN
         generateValue: true
+      - key: HUBSPOT_API_KEY
+        sync: false
+      - key: HUNTER_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
