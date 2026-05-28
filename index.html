@@ -166,6 +166,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .modal p{font-size:12px;color:var(--muted);margin-bottom:16px}
 .modal .fld{margin-bottom:12px}
 .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+
+/* Cowork log panel */
+.cw-panel{position:fixed;right:0;top:0;bottom:0;width:320px;background:var(--navy);color:#e2e8f0;z-index:900;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,.3)}
+.cw-panel.open{transform:translateX(0)}
+.cw-panel-hdr{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.cw-panel-title{font-weight:700;font-size:13px}
+.cw-close{background:none;border:none;color:#8b9ab3;font-size:18px;cursor:pointer;padding:0 4px}
+.cw-log{flex:1;overflow-y:auto;padding:10px}
+.cw-entry{padding:8px 10px;border-radius:6px;margin-bottom:6px;font-size:11px;line-height:1.5}
+.cw-entry.running{background:rgba(245,158,11,.15);border-left:3px solid var(--amber)}
+.cw-entry.success{background:rgba(16,185,129,.12);border-left:3px solid var(--green)}
+.cw-entry.error{background:rgba(239,68,68,.12);border-left:3px solid var(--red)}
+.cw-entry-type{font-weight:700;text-transform:uppercase;font-size:10px;letter-spacing:.5px;margin-bottom:2px}
+.cw-entry-msg{color:#cbd5e1;word-break:break-word}
+.cw-entry-time{color:#64748b;font-size:10px;margin-top:2px}
+.cw-actions{padding:10px;border-top:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.cw-quick-btn{padding:8px 12px;border-radius:6px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#e2e8f0;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;text-align:left;transition:.15s}
+.cw-quick-btn:hover{background:rgba(255,255,255,.12)}
+.cw-quick-btn.li{border-color:#0a66c2;color:#93c5fd}
+.cw-quick-btn.mc{border-color:#ffe01b;color:#fde68a}
+.cw-toggle{position:fixed;right:0;top:50%;transform:translateY(-50%);background:var(--navy);color:#fff;border:none;padding:10px 6px;border-radius:6px 0 0 6px;cursor:pointer;z-index:901;font-size:11px;font-weight:700;writing-mode:vertical-lr;letter-spacing:1px;display:flex;align-items:center;gap:4px;box-shadow:-2px 0 8px rgba(0,0,0,.2)}
+.cw-badge{position:absolute;top:-4px;left:-4px;background:var(--orange);color:#fff;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:800;display:none;align-items:center;justify-content:center}
+.cw-badge.show{display:flex}
+/* LinkedIn send button */
+.btn-li{background:#0a66c2;color:#fff}.btn-li:hover{background:#084f96}
 </style>
 </head>
 <body>
@@ -368,11 +393,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="card-body content-output" id="mkt-output">
         <span style="color:var(--muted);font-style:italic">Generated content will appear here…</span>
       </div>
-      <div class="output-toolbar">
+      <div class="output-toolbar" style="flex-wrap:wrap;gap:6px">
         <button class="btn btn-sm" style="background:#f3f4f6" onclick="copyOutput()">📋 Copy</button>
-        <button class="btn btn-sm" style="background:#f3f4f6" onclick="downloadOutput()">⬇ Download .txt</button>
-        <button class="btn btn-sm btn-orange" onclick="sendToEmail()">→ Send to Email Tab</button>
-        <button class="btn btn-sm" style="background:#dbeafe;color:#1d4ed8" onclick="sendToLinkedIn()">→ Send to LinkedIn Tab</button>
+        <button class="btn btn-sm" style="background:#f3f4f6" onclick="downloadOutput()">⬇ .txt</button>
+        <button class="btn btn-sm btn-orange" onclick="sendToEmail()">→ Email Tab</button>
+        <button class="btn btn-sm" style="background:#dbeafe;color:#1d4ed8" onclick="sendToLinkedIn()">→ LinkedIn Tab</button>
+        <span style="width:1px;background:var(--border);margin:0 2px"></span>
+        <button class="btn btn-sm btn-li" onclick="coworkSocialPost('linkedin')" id="mkt-li-post-btn">🔗 Post to LinkedIn</button>
+        <button class="btn btn-sm" style="background:#fde68a;color:#92400e" onclick="coworkSocialPost('mailchimp')" id="mkt-mc-post-btn">✉️ Send to Mailchimp</button>
       </div>
     </div>
   </div>
@@ -443,9 +471,10 @@ I noticed [Company] recently [signal]..."></textarea>
             <label>Plain-Text Preview</label>
             <div id="em-preview" style="background:#f9fafb;border:1px solid var(--border);border-radius:6px;padding:12px;font-size:12px;line-height:1.6;min-height:80px;color:var(--muted)">Preview will appear here after generating…</div>
           </div>
-          <div style="display:flex;gap:8px">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
             <button class="btn btn-sm" style="background:#f3f4f6" onclick="generateEmailBody()">⚡ AI Write Body</button>
             <button class="btn btn-sm" style="background:#f3f4f6" onclick="generateSubject()">⚡ AI Subject Lines</button>
+            <button class="btn btn-sm" style="background:#fde68a;color:#92400e" onclick="coworkLaunchCampaign()">✉️ Launch via Cowork</button>
           </div>
         </div>
       </div>
@@ -485,6 +514,7 @@ I noticed [Company] recently [signal]..."></textarea>
         </div>
         <div style="display:flex;gap:8px">
           <button class="btn btn-sm" style="background:#f3f4f6" onclick="generateLiMessage()" id="li-gen-btn">⚡ Generate</button>
+          <button class="btn btn-sm btn-li" onclick="coworkSendLinkedIn()" id="li-send-btn">🔗 Send via Cowork</button>
           <button class="btn btn-orange btn-sm" onclick="copyLiMessage()" id="li-copy-btn">📋 Copy</button>
         </div>
       </div>
@@ -505,13 +535,38 @@ I noticed [Company] recently [signal]..."></textarea>
           <button class="btn btn-sm" style="background:#f3f4f6" onclick="openLinkedIn()" id="li-open-btn">Open Profile</button>
         </div>
       </div>
-      <!-- Batch export -->
-      <div style="padding:10px 14px;border-top:1px solid var(--border);background:#f9fafb;display:flex;gap:8px;align-items:center;flex-shrink:0">
-        <span style="font-size:11px;color:var(--muted)">Batch:</span>
-        <button class="btn btn-sm" style="background:#f3f4f6" onclick="exportAllMessages()">⬇ Export All Messages (.csv)</button>
-        <button class="btn btn-sm btn-orange" onclick="generateAllMessages()">⚡ Generate All Connection Requests</button>
+      <!-- Batch bar -->
+      <div style="padding:10px 14px;border-top:1px solid var(--border);background:#f9fafb;display:flex;gap:8px;align-items:center;flex-shrink:0;flex-wrap:wrap">
+        <button class="btn btn-sm btn-li" onclick="coworkRun('linkedin-all')">🔗 Run All LinkedIn via Cowork</button>
+        <button class="btn btn-sm btn-orange" onclick="generateAllMessages()">⚡ Generate All</button>
+        <button class="btn btn-sm" style="background:#f3f4f6" onclick="exportAllMessages()">⬇ Export .csv</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Cowork Activity Panel -->
+<button class="cw-toggle" onclick="toggleCoworkLog()" title="Cowork Activity">
+  <div class="cw-badge" id="cw-badge">0</div>
+  COWORK
+</button>
+<div class="cw-panel" id="cw-panel">
+  <div class="cw-panel-hdr">
+    <div>
+      <div class="cw-panel-title">Cowork Activity</div>
+      <div style="font-size:10px;color:#64748b;margin-top:2px" id="cw-status-mini">Ready</div>
+    </div>
+    <button class="cw-close" onclick="toggleCoworkLog()">✕</button>
+  </div>
+  <div class="cw-log" id="cw-log">
+    <div style="color:#475569;font-size:11px;text-align:center;padding:20px">No activity yet.<br>Run an action to see Cowork working.</div>
+  </div>
+  <div class="cw-actions">
+    <div style="font-size:10px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Quick Actions</div>
+    <button class="cw-quick-btn li" onclick="coworkRun('linkedin-all')">🔗 Run All LinkedIn Outreach</button>
+    <button class="cw-quick-btn mc" onclick="coworkRun('mailchimp-send-all')">✉️ Send All Queued Mailchimp Campaigns</button>
+    <button class="cw-quick-btn" onclick="coworkRun('full-sequence')">🤖 Full Sequence (Email + LinkedIn)</button>
+    <button class="cw-quick-btn" style="border-color:#ef4444;color:#fca5a5" onclick="clearCoworkLog()">🗑 Clear Log</button>
   </div>
 </div>
 
@@ -877,51 +932,148 @@ function appendMsg(role, text) {
 function chatKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
 function clearChat() { chatHistory = []; document.getElementById('chat-msgs').innerHTML = '<div class="msg system">Chat cleared. Ask me to draft outreach for any prospect.</div>'; }
 
-// ── Cowork actions ────────────────────────────────────────────────────────────
+// ── Cowork core ───────────────────────────────────────────────────────────────
+let cwLogCount = 0;
+
 function setCoworkStatus(msg, loading=false) {
   document.getElementById('cowork-label').textContent = msg;
+  document.getElementById('cw-status-mini').textContent = msg;
   const dot = document.getElementById('cowork-dot');
   dot.style.animation = loading ? 'pulse 1s infinite' : 'none';
+  dot.style.background = loading ? 'var(--amber)' : msg.includes('✓') ? 'var(--green)' : msg.includes('Error') ? 'var(--red)' : 'var(--green)';
 }
 
-async function coworkOutreach() {
-  if (!window.cowork) { toast('Cowork not detected — open in Claude Code web', 4000); return; }
-  const p = selectedContact;
-  const prompt = p
-    ? `Run an outreach campaign for ${p.name} at ${p.company} (${p.email||'no email yet'}). Sector: ${guessSector(p.company)}. Lead with AI governance angle.`
-    : 'Run the tricord-outreach skill for the next 5 prospects in the Ontario pipeline.';
-  setCoworkStatus('Running outreach…', true);
+function logCowork(type, status, detail='') {
+  cwLogCount++;
+  const badge = document.getElementById('cw-badge');
+  badge.textContent = cwLogCount;
+  badge.classList.add('show');
+  const log = document.getElementById('cw-log');
+  const entry = document.createElement('div');
+  entry.className = `cw-entry ${status}`;
+  const time = new Date().toLocaleTimeString();
+  const detailStr = typeof detail === 'string' ? detail : JSON.stringify(detail||'').slice(0,120);
+  entry.innerHTML = `<div class="cw-entry-type">${type.replace(/-/g,' ')}</div><div class="cw-entry-msg">${detailStr||'Complete'}</div><div class="cw-entry-time">${time}</div>`;
+  // remove empty-state message
+  log.querySelectorAll('div[style*="No activity"]').forEach(el => el.remove());
+  log.appendChild(entry);
+  log.scrollTop = log.scrollHeight;
+}
+
+function toggleCoworkLog() {
+  document.getElementById('cw-panel').classList.toggle('open');
+  document.getElementById('cw-badge').classList.remove('show');
+  cwLogCount = 0;
+}
+
+function clearCoworkLog() {
+  document.getElementById('cw-log').innerHTML = '<div style="color:#475569;font-size:11px;text-align:center;padding:20px">Log cleared.</div>';
+  cwLogCount = 0;
+  document.getElementById('cw-badge').classList.remove('show');
+}
+
+// Central Cowork dispatcher
+async function coworkRun(type, data={}) {
+  if (!window.cowork) {
+    toast('Cowork not detected — open this page inside Claude Code web', 5000);
+    logCowork(type, 'error', 'Cowork not detected');
+    return;
+  }
+  const PROMPTS = {
+    'linkedin-connect': () => `Send a LinkedIn connection request to ${data.name} at ${data.company} (${data.sector||'Ontario business'}). Use this exact message — do not modify it:\n\n"${data.message}"\n\n${data.linkedin ? 'LinkedIn profile URL: ' + data.linkedin : 'Search LinkedIn for: ' + data.name + ' ' + data.company}`,
+    'linkedin-followup': () => `Send a LinkedIn message to ${data.name} at ${data.company}. Use this exact message:\n\n"${data.message}"`,
+    'linkedin-all': () => `Run LinkedIn outreach for all pending TRICORD Ontario prospects. Use the tricord-outreach skill. For each prospect where t2/LinkedIn is pending: find their LinkedIn profile, send a personalised connection request using the AI governance angle specific to their sector. Report back how many were sent.`,
+    'mailchimp-save': () => `Save this email to Mailchimp as a draft campaign:\n- Campaign name: ${data.name||'TRICORD Outreach ' + new Date().toLocaleDateString()}\n- Subject: ${data.subject}\n- From: Dwight G. — TRICORD I.T Solutions\n- Reply-to: info@tricordit.ca\n- Body:\n${data.body}`,
+    'mailchimp-send-all': () => `Review all draft Mailchimp campaigns for TRICORD I.T Solutions and send or schedule the ones that are ready. Report which campaigns were sent.`,
+    'mailchimp-campaign': () => `Plan and create a Mailchimp email campaign targeting ${data.audience||'Ontario businesses'}:\n- Subject: ${data.subject||'TRICORD AI Governance'}\n- Body: ${data.body||''}`,
+    'social-linkedin-post': () => `Post the following content to LinkedIn as Dwight G. from TRICORD I.T Solutions:\n\n${data.content}\n\nDo not add hashtags beyond what's in the text.`,
+    'social-mailchimp': () => `Create a Mailchimp campaign with this social/announcement content and save as a draft:\n- Subject: ${(data.content||'').split('\n')[0].slice(0,50) || 'TRICORD Update'}\n- Body:\n${data.content}`,
+    'full-sequence': () => `Run a full outreach sequence for all pending TRICORD Ontario prospects:\n1. For each prospect, find their email via Hunter.io if missing\n2. Create and queue a personalised Touch 1 email in Mailchimp\n3. Send a LinkedIn connection request\nUse the tricord-outreach skill and TRICORD's AI governance messaging. Report results.`,
+    'enrich': () => `Enrich company data for domain: ${data.domain}. Return company size, recent news, AI adoption signals.`,
+  };
+
+  const promptFn = PROMPTS[type];
+  if (!promptFn) { toast('Unknown Cowork action: ' + type); return; }
+
+  setCoworkStatus(`Running: ${type.replace(/-/g,' ')}…`, true);
+  logCowork(type, 'running', 'Started…');
+  toggleCoworkLog(); // open panel so user sees activity
+
   try {
-    await window.cowork.callMcpTool('mcp__2cf22e1d-e795-42a7-88ea-03332a46b97e__campaign_planner', { prompt });
-    setCoworkStatus('Outreach complete ✓');
-    toast('Cowork outreach sequence complete!');
-  } catch (e) { setCoworkStatus('Error: ' + e.message); toast('Cowork error: ' + e.message, 4000); }
+    let result;
+    // Save-to-mailchimp uses direct tool; everything else uses campaign_planner
+    if (type === 'mailchimp-save' && data.subject && data.body) {
+      result = await window.cowork.callMcpTool('mcp__2cf22e1d-e795-42a7-88ea-03332a46b97e__save_to_mailchimp', {
+        subject: data.subject,
+        body: data.body,
+        campaign_name: data.name || data.subject,
+        from_name: 'Dwight G. — TRICORD I.T Solutions',
+        reply_to: 'info@tricordit.ca',
+      });
+    } else {
+      result = await window.cowork.callMcpTool('mcp__2cf22e1d-e795-42a7-88ea-03332a46b97e__campaign_planner', {
+        prompt: promptFn(),
+      });
+    }
+    setCoworkStatus(type.replace(/-/g,' ') + ' ✓');
+    const summary = typeof result === 'string' ? result.slice(0,150) : JSON.stringify(result||'done').slice(0,150);
+    logCowork(type, 'success', summary);
+    toast('Cowork: ' + type.replace(/-/g,' ') + ' complete!');
+    return result;
+  } catch (e) {
+    setCoworkStatus('Error');
+    logCowork(type, 'error', e.message);
+    toast('Cowork error: ' + e.message, 5000);
+  }
+}
+
+// ── Cowork shortcut functions ─────────────────────────────────────────────────
+
+async function coworkOutreach() {
+  const p = selectedContact;
+  if (p) {
+    await coworkRun('linkedin-connect', {
+      name: p.name, company: p.company, sector: guessSector(p.company),
+      linkedin: p.linkedin, message: document.getElementById('li-custom-input')?.value || LI_TEMPLATES.connection(p),
+    });
+  } else {
+    await coworkRun('full-sequence');
+  }
 }
 
 async function coworkMailchimp() {
-  if (!window.cowork) { toast('Cowork not detected', 3000); return; }
-  setCoworkStatus('Queueing Mailchimp…', true);
-  try {
-    const subject = document.getElementById('em-subject').value || 'TRICORD AI Governance — Ontario Outreach';
-    const body = document.getElementById('em-body').value || (chatHistory.length ? chatHistory[chatHistory.length-1].content : '');
-    await window.cowork.callMcpTool('mcp__2cf22e1d-e795-42a7-88ea-03332a46b97e__save_to_mailchimp', {
-      subject, body, from_name: 'Dwight G. — TRICORD I.T Solutions', reply_to: 'info@tricordit.ca'
-    });
-    setCoworkStatus('Saved to Mailchimp ✓');
-    toast('Draft saved to Mailchimp!');
-  } catch (e) { setCoworkStatus('Mailchimp error'); toast('Error: ' + e.message, 4000); }
+  const subject = document.getElementById('em-subject')?.value || 'TRICORD AI Governance — Ontario Outreach';
+  const body = document.getElementById('em-body')?.value || (chatHistory.length ? chatHistory[chatHistory.length-1].content : '');
+  await coworkRun('mailchimp-save', { subject, body, name: document.getElementById('em-name')?.value });
 }
 
 async function coworkEnrich() {
-  if (!window.cowork) { toast('Cowork not detected', 3000); return; }
   const domain = selectedContact?.email?.split('@')[1] || document.getElementById('hunter-domain').value;
   if (!domain) { toast('Select a contact or enter a domain first'); return; }
-  setCoworkStatus('Enriching…', true);
-  try {
-    const r = await window.cowork.callMcpTool('mcp__2cf22e1d-e795-42a7-88ea-03332a46b97e__get_enrichment', { domain });
-    setCoworkStatus('Enrichment done ✓');
-    if (r) appendMsg('system', 'Enrichment: ' + JSON.stringify(r).slice(0,200));
-  } catch (e) { setCoworkStatus('Enrichment error'); }
+  await coworkRun('enrich', { domain });
+}
+
+async function coworkSendLinkedIn() {
+  if (!liSelectedProspect) { toast('Select a prospect first'); return; }
+  const p = liSelectedProspect;
+  const msg = document.getElementById('li-custom-input').value || LI_TEMPLATES[liTemplate](p);
+  const type = liTemplate === 'connection' ? 'linkedin-connect' : 'linkedin-followup';
+  await coworkRun(type, { name: p.contact||p.name, company: p.company, sector: p.sector, linkedin: p.linkedin, message: msg });
+}
+
+async function coworkSocialPost(channel) {
+  const content = generatedContent || document.getElementById('mkt-output')?.textContent;
+  if (!content || content.includes('Generated content will appear here')) { toast('Generate content first'); return; }
+  if (channel === 'linkedin') await coworkRun('social-linkedin-post', { content });
+  else if (channel === 'mailchimp') await coworkRun('social-mailchimp', { content });
+}
+
+async function coworkLaunchCampaign() {
+  const subject = document.getElementById('em-subject').value.trim();
+  const body = document.getElementById('em-body').value.trim();
+  const audience = document.getElementById('em-audience').value.trim();
+  if (!subject || !body) { toast('Subject and body required'); return; }
+  await coworkRun('mailchimp-campaign', { subject, body, audience });
 }
 
 // ── Marketing ─────────────────────────────────────────────────────────────────
